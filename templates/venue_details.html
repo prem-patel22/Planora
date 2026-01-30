@@ -90,6 +90,21 @@
             color: var(--accent);
             margin-right: 10px;
         }
+        
+        /* Additional styles for fallback options */
+        .fallback-option {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .fallback-option:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .selected-option {
+            border: 2px solid var(--accent) !important;
+            box-shadow: 0 0 20px rgba(200, 169, 126, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -162,14 +177,17 @@
             <div class="col-12">
                 <h3 class="section-title">
                     <i class="fas fa-utensils me-2"></i>Catering Menus
-                    <span class="badge bg-secondary ms-2">{{ catering_menus|length }} options</span>
+                    <span class="badge bg-secondary ms-2">
+                        {% if catering_menus %}{{ catering_menus|length }}{% else %}3{% endif %} options
+                    </span>
                 </h3>
                 
                 {% if catering_menus %}
+                <!-- Dynamic catering menus from database -->
                 <div class="row">
                     {% for menu in catering_menus %}
                     <div class="col-md-4 mb-4">
-                        <div class="card h-100">
+                        <div class="card h-100 fallback-option">
                             {% if menu.images.exists %}
                             <img src="{{ menu.images.first.image.url }}" class="card-img-top" alt="{{ menu.name }}">
                             {% else %}
@@ -205,9 +223,92 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                <div class="alert alert-info">
+                <!-- FALLBACK: Hardcoded catering options with images -->
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 fallback-option" onclick="selectFallbackCatering('vegetarian', this)">
+                            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="card-img-top" alt="Vegetarian Delight Menu">
+                            <div class="card-body">
+                                <h5 class="card-title">Vegetarian Delight</h5>
+                                <p class="card-text">A complete vegetarian feast with 5 starters, 8 main course dishes, 3 bread varieties, and 4 dessert options.</p>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="price-badge">
+                                        <i class="fas fa-rupee-sign"></i> 15,000
+                                    </span>
+                                    <span class="badge bg-success">Vegetarian</span>
+                                </div>
+                                
+                                <p class="mb-2">
+                                    <i class="fas fa-users me-1"></i>
+                                    For 50 - 500 guests
+                                </p>
+                                
+                                <button class="btn btn-primary-custom w-100">
+                                    <i class="fas fa-check me-1"></i>Select Menu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 fallback-option" onclick="selectFallbackCatering('nonveg', this)">
+                            <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="card-img-top" alt="Royal Non-Veg Feast">
+                            <div class="card-body">
+                                <h5 class="card-title">Royal Non-Veg Feast</h5>
+                                <p class="card-text">Exquisite non-vegetarian spread featuring 6 starters, 10 main course dishes including Mughlai specialties.</p>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="price-badge">
+                                        <i class="fas fa-rupee-sign"></i> 22,000
+                                    </span>
+                                    <span class="badge bg-danger">Non-Veg</span>
+                                </div>
+                                
+                                <p class="mb-2">
+                                    <i class="fas fa-users me-1"></i>
+                                    For 50 - 500 guests
+                                </p>
+                                
+                                <button class="btn btn-primary-custom w-100">
+                                    <i class="fas fa-check me-1"></i>Select Menu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 fallback-option" onclick="selectFallbackCatering('fusion', this)">
+                            <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="card-img-top" alt="Premium Fusion Cuisine">
+                            <div class="card-body">
+                                <h5 class="card-title">Premium Fusion Cuisine</h5>
+                                <p class="card-text">A fusion of Indian and international cuisines with 8 starters, 12 main course options, live counters.</p>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="price-badge">
+                                        <i class="fas fa-rupee-sign"></i> 28,000
+                                    </span>
+                                    <span class="badge bg-info">Fusion</span>
+                                </div>
+                                
+                                <p class="mb-2">
+                                    <i class="fas fa-users me-1"></i>
+                                    For 50 - 500 guests
+                                </p>
+                                
+                                <button class="btn btn-primary-custom w-100">
+                                    <i class="fas fa-check me-1"></i>Select Menu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-3">
                     <i class="fas fa-info-circle me-2"></i>
-                    No catering menus available for this venue. Please contact the venue for catering options.
+                    Sample catering menus shown. Contact venue for custom options.
                 </div>
                 {% endif %}
             </div>
@@ -218,14 +319,17 @@
             <div class="col-12">
                 <h3 class="section-title">
                     <i class="fas fa-palette me-2"></i>Decoration Packages
-                    <span class="badge bg-secondary ms-2">{{ decoration_packages|length }} packages</span>
+                    <span class="badge bg-secondary ms-2">
+                        {% if decoration_packages %}{{ decoration_packages|length }}{% else %}3{% endif %} packages
+                    </span>
                 </h3>
                 
                 {% if decoration_packages %}
+                <!-- Dynamic decoration packages from database -->
                 <div class="row">
                     {% for package in decoration_packages %}
                     <div class="col-md-4 mb-4">
-                        <div class="card h-100">
+                        <div class="card h-100 fallback-option">
                             {% if package.images.exists %}
                             <img src="{{ package.images.first.image.url }}" class="card-img-top" alt="{{ package.name }}">
                             {% else %}
@@ -262,9 +366,107 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                <div class="alert alert-info">
+                <!-- FALLBACK: Hardcoded decoration packages with images -->
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 fallback-option" onclick="selectFallbackDecoration('classic', this)">
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="card-img-top" alt="Classic Elegance Package">
+                            <div class="card-body">
+                                <h5 class="card-title">Classic Elegance</h5>
+                                <span class="badge bg-warning text-dark mb-2">Traditional</span>
+                                <p class="card-text">Traditional decoration with marigold flowers, drapes, and elegant lighting.</p>
+                                
+                                <div class="mb-3">
+                                    <h4 class="text-primary">
+                                        <i class="fas fa-rupee-sign"></i> 12,000
+                                    </h4>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h6>Includes:</h6>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-check text-success me-1"></i>Mandap Decoration</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>Floral Arrangements</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>Lighting Setup</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>Seating Arrangement</li>
+                                    </ul>
+                                </div>
+                                
+                                <button class="btn btn-primary-custom w-100">
+                                    <i class="fas fa-check me-1"></i>Select Package
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 fallback-option" onclick="selectFallbackDecoration('royal', this)">
+                            <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="card-img-top" alt="Royal Rajasthani Theme">
+                            <div class="card-body">
+                                <h5 class="card-title">Royal Rajasthani</h5>
+                                <span class="badge bg-warning text-dark mb-2">Rajasthani</span>
+                                <p class="card-text">Authentic Rajasthani theme with traditional artifacts and vibrant colors.</p>
+                                
+                                <div class="mb-3">
+                                    <h4 class="text-primary">
+                                        <i class="fas fa-rupee-sign"></i> 18,000
+                                    </h4>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h6>Includes:</h6>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-check text-success me-1"></i>Traditional Artifacts</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>Ethnic Drapes</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>Cultural Motifs</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>LED Lighting</li>
+                                    </ul>
+                                </div>
+                                
+                                <button class="btn btn-primary-custom w-100">
+                                    <i class="fas fa-check me-1"></i>Select Package
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 fallback-option" onclick="selectFallbackDecoration('modern', this)">
+                            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 class="card-img-top" alt="Modern Luxury Package">
+                            <div class="card-body">
+                                <h5 class="card-title">Modern Luxury</h5>
+                                <span class="badge bg-warning text-dark mb-2">Contemporary</span>
+                                <p class="card-text">Contemporary decoration with premium floral arrangements and LED effects.</p>
+                                
+                                <div class="mb-3">
+                                    <h4 class="text-primary">
+                                        <i class="fas fa-rupee-sign"></i> 25,000
+                                    </h4>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h6>Includes:</h6>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-check text-success me-1"></i>Premium Florals</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>Crystal Elements</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>LED Effects</li>
+                                        <li><i class="fas fa-check text-success me-1"></i>Luxury Fabrics</li>
+                                    </ul>
+                                </div>
+                                
+                                <button class="btn btn-primary-custom w-100">
+                                    <i class="fas fa-check me-1"></i>Select Package
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-3">
                     <i class="fas fa-info-circle me-2"></i>
-                    No decoration packages available. Please contact the venue for decoration options.
+                    Sample decoration packages shown. Contact venue for custom themes.
                 </div>
                 {% endif %}
             </div>
@@ -329,7 +531,67 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Simple selection logic for menus and packages
+        // Fallback selection logic for hardcoded options
+        let selectedCatering = null;
+        let selectedDecoration = null;
+        
+        function selectFallbackCatering(type, element) {
+            const cards = document.querySelectorAll('.catering-section .fallback-option');
+            cards.forEach(card => card.classList.remove('selected-option'));
+            element.classList.add('selected-option');
+            
+            let name, price;
+            switch(type) {
+                case 'vegetarian':
+                    name = 'Vegetarian Delight';
+                    price = '15,000';
+                    break;
+                case 'nonveg':
+                    name = 'Royal Non-Veg Feast';
+                    price = '22,000';
+                    break;
+                case 'fusion':
+                    name = 'Premium Fusion Cuisine';
+                    price = '28,000';
+                    break;
+            }
+            
+            document.getElementById('selected-catering').innerHTML = `
+                <p><strong>${name}</strong></p>
+                <p>₹${price}</p>
+            `;
+            selectedCatering = { name, price };
+        }
+        
+        function selectFallbackDecoration(type, element) {
+            const cards = document.querySelectorAll('.decoration-section .fallback-option');
+            cards.forEach(card => card.classList.remove('selected-option'));
+            element.classList.add('selected-option');
+            
+            let name, price;
+            switch(type) {
+                case 'classic':
+                    name = 'Classic Elegance';
+                    price = '12,000';
+                    break;
+                case 'royal':
+                    name = 'Royal Rajasthani';
+                    price = '18,000';
+                    break;
+                case 'modern':
+                    name = 'Modern Luxury';
+                    price = '25,000';
+                    break;
+            }
+            
+            document.getElementById('selected-decoration').innerHTML = `
+                <p><strong>${name}</strong></p>
+                <p>₹${price}</p>
+            `;
+            selectedDecoration = { name, price };
+        }
+        
+        // Original selection logic for dynamic options
         document.querySelectorAll('.select-menu-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const name = this.dataset.menuName;

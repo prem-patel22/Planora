@@ -4,15 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Venue - Party Plot Management System</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Infant:wght@400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- AOS Animation Library -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #1a2e35;
@@ -24,36 +18,40 @@
             --green: #397B53;
         }
         
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95)), url('/api/placeholder/1920/1080');
-            background-attachment: fixed;
-            background-size: cover;
-            color: var(--dark);
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 80px;
-        }
-
-        /* Typography Enhancements */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            letter-spacing: -0.02em;
         }
         
-        /* Custom Navbar Styling */
+        body {
+            background-color: #f9f9f9;
+            background-image: linear-gradient(to bottom right, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95));
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Enhanced Navbar matching your design */
         .navbar {
-            background-color: rgba(38, 50, 56, 0.98) !important;
+            background-color: rgba(38, 50, 56, 0.98);
+            color: white;
             padding: 18px 0;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1000;
         }
         
         .navbar-brand {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
             font-weight: 700;
-            color: white !important;
+            text-decoration: none;
+            color: white;
             letter-spacing: 0.5px;
             padding-left: 2rem;
             position: relative;
@@ -70,14 +68,30 @@
             background-color: var(--accent);
         }
         
+        .navbar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-grow: 1;
+            justify-content: flex-end;
+            padding-right: 2rem;
+        }
+        
+        .nav-item {
+            margin-right: 25px;
+            position: relative;
+        }
+        
         .nav-link {
-            color: white !important;
+            text-decoration: none;
+            color: white;
             font-size: 0.95rem;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 10px 5px !important;
-            margin: 0 15px;
+            padding: 10px 5px;
+            transition: all 0.3s ease;
             position: relative;
         }
         
@@ -93,143 +107,100 @@
         }
         
         .nav-link:hover {
-            color: var(--accent) !important;
+            color: var(--accent);
         }
         
         .nav-link:hover::after {
             width: 100%;
         }
         
-        /* Form Styling */
-        .booking-container {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            padding: 40px;
-            margin-top: 50px;
-            margin-bottom: 50px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .booking-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background-color: var(--accent);
-        }
-        
-        .booking-title {
-            color: var(--primary);
-            font-size: 2.2rem;
-            margin-bottom: 30px;
+        /* Main content with your design style */
+        header {
             text-align: center;
-            position: relative;
+            margin: 40px auto 30px;
+            padding-bottom: 20px;
+            max-width: 1200px;
         }
         
-        .booking-title::after {
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
             content: '';
             position: absolute;
-            width: 50px;
+            width: 70px;
             height: 3px;
             background-color: var(--accent);
-            bottom: -10px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
         }
         
+        .venue-info {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            font-family: 'Karla', sans-serif;
+        }
+        
+        /* Booking Form Section */
+        .booking-form-section {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 30px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .booking-form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--green));
+        }
+        
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .form-label {
             font-weight: 600;
             color: var(--primary);
             margin-bottom: 8px;
-            font-size: 1rem;
+            display: block;
         }
         
         .form-control {
+            width: 100%;
+            padding: 12px 15px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            padding: 12px 15px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            box-shadow: none;
         }
         
         .form-control:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 0 0.2rem rgba(200, 169, 126, 0.25);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(200, 169, 126, 0.2);
         }
         
-        .form-control:disabled, .form-control[readonly] {
-            background-color: rgba(200, 169, 126, 0.1);
-            border-color: rgba(200, 169, 126, 0.2);
-            color: var(--secondary);
-            font-weight: 600;
-        }
-        
-        .btn-book-now {
-            background-color: var(--accent);
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(200, 169, 126, 0.3);
-            width: 100%;
-            margin-top: 10px;
-        }
-        
-        .btn-book-now:hover {
-            background-color: #b69566;
-            color: white;
-            box-shadow: 0 8px 20px rgba(200, 169, 126, 0.4);
-            transform: translateY(-3px);
-        }
-        
-        /* Alert Styling */
-        .alert {
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            border: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-        
-        .alert-success {
-            background-color: rgba(57, 123, 83, 0.1);
-            color: var(--green);
-            border-left: 4px solid var(--green);
-        }
-        
-        .alert-danger {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-            border-left: 4px solid #dc3545;
-        }
-        
-        .alert-warning {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
-            border-left: 4px solid #ffc107;
-        }
-        
-        .alert-info {
-            background-color: rgba(13, 202, 240, 0.1);
-            color: #0dcaf0;
-            border-left: 4px solid #0dcaf0;
-        }
-        
-        /* Error Message */
         .invalid-date-message {
             color: #dc3545;
             font-size: 0.85rem;
@@ -238,14 +209,246 @@
             font-weight: 500;
         }
         
-        /* Footer Styling */
+        /* Container for main content */
+        .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+        
+        .main-content, .sidebar {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-content::before, .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--green));
+        }
+        
+        .section-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        .section-subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-family: 'Karla', sans-serif;
+        }
+        
+        /* Card styles matching your design */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .option-card {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: none;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 40px rgba(200, 169, 126, 0.2);
+        }
+        
+        .option-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        
+        .option-card:hover .option-image {
+            transform: scale(1.05);
+        }
+        
+        .option-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .option-name {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .option-price {
+            font-size: 1.3rem;
+            color: var(--green);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .option-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Button styles matching your design */
+        .select-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .select-btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .selected-btn {
+            background-color: var(--green);
+        }
+        
+        /* Booking summary table */
+        .booking-summary {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .booking-summary th, .booking-summary td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .booking-summary th {
+            background-color: rgba(248, 249, 250, 0.5);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .venue-highlight {
+            font-weight: 600;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .venue-price {
+            font-size: 1.3rem;
+            color: var(--green);
+            font-weight: 700;
+        }
+        
+        /* Weather widget */
+        .weather-widget {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .weather-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        
+        .temp {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-right: 15px;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .weather-desc {
+            font-size: 1.2rem;
+            font-family: 'Karla', sans-serif;
+        }
+        
+        /* Contact note */
+        .contact-note {
+            background-color: rgba(255, 249, 230, 0.8);
+            border-left: 4px solid var(--gold);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .contact-note p {
+            margin-bottom: 5px;
+            font-family: 'Karla', sans-serif;
+        }
+        
+        .contact-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 15px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .contact-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .selected-item {
+            background-color: rgba(200, 169, 126, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        /* Footer matching your design */
         footer {
             background-color: var(--green);
             padding: 20px;
             color: #fff;
             text-align: center;
-            position: absolute;
-            bottom: 0;
             width: 100%;
             box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
         }
@@ -257,233 +460,490 @@
             font-family: 'Karla', sans-serif;
         }
         
-        /* Animation Classes */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-        
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .booking-container {
-                padding: 25px;
-                margin-top: 30px;
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .container {
+                grid-template-columns: 1fr;
             }
             
-            .booking-title {
-                font-size: 1.8rem;
+            .navbar {
+                padding: 15px 0;
             }
             
             .navbar-brand {
+                font-size: 1.6rem;
+                padding-left: 1.5rem;
+            }
+            
+            .nav-item {
+                margin-right: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .booking-form-section {
+                margin: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
                 font-size: 1.5rem;
             }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .booking-form-section {
+                padding: 20px;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1, .section-title, .option-card {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .option-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .option-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        /* Date Validation */
+        .date-input-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .date-input-group .form-control {
+            flex: 1;
         }
     </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" href="{% url 'index' %}">Party Plot Management</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'search_venues' %}">Search Venues</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'reviews' %}">Reviews</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <nav class="navbar">
+            <a class="navbar-brand" href="{% url 'index' %}">Party Plot Management</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'search_venues' %}">Search Venues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reviews' %}">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            </ul>
         </nav>
     </header>
 
+    <header>
+        <h1>Complete Your Booking</h1>
+        <p class="venue-info">Utsav Villa • Jaipur, Rajasthan</p>
+    </header>
+    
+    <!-- Date Selection Form -->
+    <div class="booking-form-section">
+        <h2 class="section-title">Select Booking Date</h2>
+        <form id="date-selection-form">
+            <div class="form-group">
+                <label for="booking-date" class="form-label">Event Date *</label>
+                <input type="date" class="form-control" id="booking-date" name="booking-date" required>
+                <span class="invalid-date-message">
+                    <i class="fas fa-exclamation-circle me-1"></i>
+                    Please select a future date.
+                </span>
+            </div>
+            
+            <div class="form-group">
+                <label for="event-type" class="form-label">Event Type</label>
+                <select class="form-control" id="event-type" name="event-type">
+                    <option value="">Select Event Type</option>
+                    <option value="wedding">Wedding</option>
+                    <option value="birthday">Birthday Party</option>
+                    <option value="corporate">Corporate Event</option>
+                    <option value="engagement">Engagement</option>
+                    <option value="anniversary">Anniversary</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="guests" class="form-label">Number of Guests</label>
+                <input type="number" class="form-control" id="guests" name="guests" min="1" max="1000" placeholder="Estimated number of guests">
+            </div>
+            
+            <button type="button" class="select-btn" onclick="proceedToCatering()">
+                <i class="fas fa-arrow-right me-2"></i>Proceed to Catering & Decoration
+            </button>
+        </form>
+    </div>
+    
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
-                <div class="booking-container" data-aos="fade-up">
-                    <h1 class="booking-title">Book Your Venue</h1>
-                    
-                    {% if messages %}
-                    <div class="messages">
-                        {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            <i class="fas {% if message.tags == 'success' %}fa-check-circle{% elif message.tags == 'danger' %}fa-exclamation-circle{% elif message.tags == 'warning' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} me-2"></i>
-                            {{ message }}
+        <div class="main-content">
+            <section class="catering-section">
+                <h2 class="section-title">Catering Menus</h2>
+                <p class="section-subtitle"><strong>3 options</strong> - Choose from our premium catering menus</p>
+                
+                <div class="options-grid">
+                    <div class="option-card">
+                        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Vegetarian Delight Menu" class="option-image">
+                        <div class="option-content">
+                            <h3 class="option-name">Vegetarian Delight</h3>
+                            <div class="option-price">₹15,000</div>
+                            <p class="option-description">A complete vegetarian feast with 5 starters, 8 main course dishes, 3 bread varieties, and 4 dessert options. Perfect for traditional celebrations.</p>
+                            <button class="select-btn" onclick="selectOption('catering', 'Vegetarian Delight', '15000')">Select Menu</button>
                         </div>
-                        {% endfor %}
                     </div>
-                    {% endif %}
                     
-                    <form id="book-venue-form" method="post">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="venue-name" class="form-label">Selected Venue:</label>
-                            <select class="form-control" id="venue-name" name="venue-name" required>
-                                <option value="{{ request.GET.venue_name }}" selected>{{ request.GET.venue_name }}</option>
-                            </select>
+                    <div class="option-card">
+                        <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Royal Non-Veg Feast" class="option-image">
+                        <div class="option-content">
+                            <h3 class="option-name">Royal Non-Veg Feast</h3>
+                            <div class="option-price">₹22,000</div>
+                            <p class="option-description">Exquisite non-vegetarian spread featuring 6 starters, 10 main course dishes including Mughlai specialties, and 5 dessert options.</p>
+                            <button class="select-btn" onclick="selectOption('catering', 'Royal Non-Veg Feast', '22000')">Select Menu</button>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="date" class="form-label">Select Date:</label>
-                            <input type="date" class="form-control" id="date" name="date" required>
-                            <span class="invalid-date-message">
-                                <i class="fas fa-exclamation-circle me-1"></i>
-                                Please select a future date.
-                            </span>
+                    </div>
+                    
+                    <div class="option-card">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03246963d9d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Premium Fusion Cuisine" class="option-image">
+                        <div class="option-content">
+                            <h3 class="option-name">Premium Fusion Cuisine</h3>
+                            <div class="option-price">₹28,000</div>
+                            <p class="option-description">A fusion of Indian and international cuisines with 8 starters, 12 main course options, live counters, and 6 dessert varieties.</p>
+                            <button class="select-btn" onclick="selectOption('catering', 'Premium Fusion Cuisine', '28000')">Select Menu</button>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="booking-price" class="form-label">Booking Price:</label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="fas fa-rupee-sign"></i>
-                                </span>
-                                <input type="text" class="form-control" id="booking-price" name="booking-price" value="{{ request.GET.booking_price }}" readonly>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-book-now">
-                            <i class="fas fa-calendar-check me-2"></i>Book Now
-                        </button>
-                    </form>
+                    </div>
                 </div>
+            </section>
+            
+            <section class="decoration-section" style="margin-top: 40px;">
+                <h2 class="section-title">Decoration Packages</h2>
+                <p class="section-subtitle"><strong>3 packages</strong> - Choose from our elegant decoration themes</p>
+                
+                <div class="options-grid">
+                    <div class="option-card">
+                        <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Classic Elegance Package" class="option-image">
+                        <div class="option-content">
+                            <h3 class="option-name">Classic Elegance</h3>
+                            <div class="option-price">₹12,000</div>
+                            <p class="option-description">Traditional decoration with marigold flowers, drapes, and elegant lighting. Includes mandap decoration and guest seating arrangement.</p>
+                            <button class="select-btn" onclick="selectOption('decoration', 'Classic Elegance', '12000')">Select Package</button>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Royal Rajasthani Theme" class="option-image">
+                        <div class="option-content">
+                            <h3 class="option-name">Royal Rajasthani</h3>
+                            <div class="option-price">₹18,000</div>
+                            <p class="option-description">Authentic Rajasthani theme with traditional artifacts, vibrant colors, ethnic drapes, and cultural motifs throughout the venue.</p>
+                            <button class="select-btn" onclick="selectOption('decoration', 'Royal Rajasthani', '18000')">Select Package</button>
+                        </div>
+                    </div>
+                    
+                    <div class="option-card">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Modern Luxury Package" class="option-image">
+                        <div class="option-content">
+                            <h3 class="option-name">Modern Luxury</h3>
+                            <div class="option-price">₹25,000</div>
+                            <p class="option-description">Contemporary decoration with premium floral arrangements, crystal elements, LED lighting effects, and luxury fabric draping.</p>
+                            <button class="select-btn" onclick="selectOption('decoration', 'Modern Luxury', '25000')">Select Package</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="contact-note">
+                <p><i class="fas fa-info-circle"></i> Looking for something specific? We can customize packages to match your requirements.</p>
+                <button class="contact-btn" onclick="contactVenue()"><i class="fas fa-phone-alt"></i> Contact Venue for Custom Options</button>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <h2 class="section-title">Your Booking Summary</h2>
+            
+            <table class="booking-summary">
+                <tr>
+                    <th>Venue</th>
+                    <td>
+                        <div class="venue-highlight">Utsav Villa</div>
+                        <div>Jaipur, Rajasthan</div>
+                        <div class="venue-price">₹75,000</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Event Date</th>
+                    <td id="selected-date">
+                        Not selected
+                    </td>
+                </tr>
+                <tr>
+                    <th>Selected Catering</th>
+                    <td id="selected-catering">
+                        No menu selected
+                    </td>
+                </tr>
+                <tr>
+                    <th>Selected Decoration</th>
+                    <td id="selected-decoration">
+                        No package selected
+                    </td>
+                </tr>
+                <tr>
+                    <th>Total Estimate</th>
+                    <td>
+                        <div id="total-estimate" class="venue-price">₹75,000</div>
+                    </td>
+                </tr>
+            </table>
+            
+            <div class="weather-widget">
+                <h3><i class="fas fa-cloud-sun"></i> Current Weather</h3>
+                <div class="weather-info">
+                    <div class="temp">27°C</div>
+                    <div class="weather-desc">Partly sunny<br>Jaipur, Rajasthan</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <button class="contact-btn" onclick="completeBooking()"><i class="fas fa-calendar-check"></i> Complete Booking</button>
+            </div>
+            
+            <div class="contact-note" style="margin-top: 25px;">
+                <p><i class="fas fa-clock"></i> All bookings are subject to availability. Final confirmation will be provided within 24 hours.</p>
             </div>
         </div>
     </div>
-
+    
     <footer>
-        <p>&copy; 2024 Party Plot Management System. All rights reserved.</p>
+        <p>Utsav Villa • Sector 5, Jawahar Nagar, Jaipur, Rajasthan 302004 • Phone: +91 141 1234567</p>
+        <p>© 2024 Party Plot Management System. All prices are inclusive of taxes.</p>
     </footer>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <!-- AOS Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    
     <script>
-        // Initialize AOS animation
+        // Initialize with no selections
+        let selectedCatering = null;
+        let selectedDecoration = null;
+        const baseVenuePrice = 75000;
+        let selectedDate = null;
+        let eventType = null;
+        let guests = null;
+        
+        // Date validation
         document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-in-out',
-                once: true
-            });
-            
-            function updateBookingPrice() {
-                var venueSelect = document.getElementById('venue-name');
-                var selectedVenueIndex = venueSelect.selectedIndex;
-                var selectedVenueOption = venueSelect.options[selectedVenueIndex];
-                var price = selectedVenueOption.getAttribute('data-price');
-                var parsedPrice = parseInt(price);
-                if (!isNaN(parsedPrice)) {
-                    document.getElementById('booking-price').value = parsedPrice;
-                } else {
-                    document.getElementById('booking-price').value = '';
-                }
-            }
-
-            document.getElementById('venue-name').addEventListener('change', updateBookingPrice);
-
-            const dateInput = document.getElementById('date');
+            const dateInput = document.getElementById('booking-date');
             const errorMessage = document.querySelector('.invalid-date-message');
-        
+            
             dateInput.addEventListener('change', function() {
-                const selectedDate = new Date(this.value);
+                const selectedDateValue = new Date(this.value);
                 const today = new Date();
-                today.setHours(0, 0, 0, 0); // Reset time to beginning of day for fair comparison
-        
-                if (selectedDate < today) {
+                today.setHours(0, 0, 0, 0);
+                
+                if (selectedDateValue < today) {
                     errorMessage.style.display = 'block';
-                    this.value = ''; 
+                    this.value = '';
                 } else {
                     errorMessage.style.display = 'none';
+                    selectedDate = this.value;
+                    updateBookingSummary();
                 }
             });
-        
-            var urlParams = new URLSearchParams(window.location.search);
-            var bookingPrice = urlParams.get('booking_price');
-            if (bookingPrice !== null) {
-                document.getElementById('booking-price').value = bookingPrice;
-            }
-
-            // SweetAlert for form submission
-            const bookVenueForm = document.getElementById('book-venue-form');
-            bookVenueForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevent default form submission
-
-                // Validate form fields
-                const venueName = document.getElementById('venue-name').value;
-                const date = document.getElementById('date').value;
-                const bookingPrice = document.getElementById('booking-price').value;
-
-                if (!venueName || !date || !bookingPrice) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Please fill in all required fields!',
-                        confirmButtonColor: '#3a506b'
-                    });
-                    return;
-                }
-
-                // Confirmation dialog
-                Swal.fire({
-                    title: 'Confirm Booking',
-                    html: `
-                        <p><strong>Venue:</strong> ${venueName}</p>
-                        <p><strong>Date:</strong> ${date}</p>
-                        <p><strong>Price:</strong> ₹${bookingPrice}</p>
-                    `,
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#397B53',
-                    cancelButtonColor: '#dc3545',
-                    confirmButtonText: 'Yes, Book it!',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Submit the form if confirmed
-                        Swal.fire({
-                            title: 'Booking in Progress',
-                            text: 'Please wait while we process your booking...',
-                            icon: 'info',
-                            showConfirmButton: false,
-                            allowOutsideClick: false,
-                            didOpen: () => {
-                                Swal.showLoading();
-                                // Simulate booking process
-                                setTimeout(() => {
-                                    // Actual form submission
-                                    bookVenueForm.submit();
-                                }, 1500);
-                            }
-                        });
-                    }
-                });
+            
+            // Event type and guests
+            document.getElementById('event-type').addEventListener('change', function() {
+                eventType = this.value;
+            });
+            
+            document.getElementById('guests').addEventListener('change', function() {
+                guests = this.value;
             });
         });
+        
+        function proceedToCatering() {
+            const dateInput = document.getElementById('booking-date');
+            const selectedDateValue = new Date(dateInput.value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (!dateInput.value) {
+                alert('Please select a date for your event.');
+                return;
+            }
+            
+            if (selectedDateValue < today) {
+                alert('Please select a future date.');
+                return;
+            }
+            
+            selectedDate = dateInput.value;
+            eventType = document.getElementById('event-type').value;
+            guests = document.getElementById('guests').value;
+            
+            updateBookingSummary();
+            
+            // Scroll to catering section
+            document.querySelector('.catering-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function selectOption(type, name, price) {
+            const priceNum = parseInt(price);
+            
+            if (type === 'catering') {
+                selectedCatering = { name, price: priceNum };
+                document.getElementById('selected-catering').innerHTML = `
+                    <div class="selected-item">
+                        <strong>${name}</strong><br>
+                        ₹${priceNum.toLocaleString()}
+                    </div>
+                `;
+                
+                // Update button states
+                updateButtonStates('catering', name);
+            } 
+            else if (type === 'decoration') {
+                selectedDecoration = { name, price: priceNum };
+                document.getElementById('selected-decoration').innerHTML = `
+                    <div class="selected-item">
+                        <strong>${name}</strong><br>
+                        ₹${priceNum.toLocaleString()}
+                    </div>
+                `;
+                
+                // Update button states
+                updateButtonStates('decoration', name);
+            }
+            
+            // Update total estimate
+            updateTotalEstimate();
+        }
+        
+        function updateButtonStates(type, selectedName) {
+            // Get all buttons for the type
+            const buttons = document.querySelectorAll(`.${type}-section .select-btn`);
+            
+            // Reset all buttons
+            buttons.forEach(button => {
+                button.textContent = 'Select ' + (type === 'catering' ? 'Menu' : 'Package');
+                button.classList.remove('selected-btn');
+            });
+            
+            // Find and update the selected button
+            buttons.forEach(button => {
+                const card = button.closest('.option-card');
+                const optionName = card.querySelector('.option-name').textContent;
+                
+                if (optionName === selectedName) {
+                    button.textContent = 'Selected';
+                    button.classList.add('selected-btn');
+                }
+            });
+        }
+        
+        function updateBookingSummary() {
+            // Update date in summary
+            if (selectedDate) {
+                const dateObj = new Date(selectedDate);
+                const formattedDate = dateObj.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                document.getElementById('selected-date').innerHTML = `
+                    <div class="selected-item">
+                        ${formattedDate}
+                    </div>
+                `;
+            }
+            
+            updateTotalEstimate();
+        }
+        
+        function updateTotalEstimate() {
+            let total = baseVenuePrice;
+            
+            if (selectedCatering) {
+                total += selectedCatering.price;
+            }
+            
+            if (selectedDecoration) {
+                total += selectedDecoration.price;
+            }
+            
+            document.getElementById('total-estimate').textContent = `₹${total.toLocaleString()}`;
+        }
+        
+        function contactVenue() {
+            alert("Please contact Utsav Villa at +91 141 1234567 or email info@utsavvilla.com for custom catering and decoration options.");
+        }
+        
+        function completeBooking() {
+            if (!selectedDate) {
+                alert('Please select a date for your event first.');
+                return;
+            }
+            
+            let message = "Complete Booking Summary:\n\n";
+            message += `Venue: Utsav Villa - ₹${baseVenuePrice.toLocaleString()}\n`;
+            message += `Event Date: ${selectedDate}\n`;
+            
+            if (eventType) {
+                message += `Event Type: ${eventType}\n`;
+            }
+            
+            if (guests) {
+                message += `Guests: ${guests}\n`;
+            }
+            
+            if (selectedCatering) {
+                message += `Catering: ${selectedCatering.name} - ₹${selectedCatering.price.toLocaleString()}\n`;
+            } else {
+                message += "Catering: No menu selected\n";
+            }
+            
+            if (selectedDecoration) {
+                message += `Decoration: ${selectedDecoration.name} - ₹${selectedDecoration.price.toLocaleString()}\n`;
+            } else {
+                message += "Decoration: No package selected\n";
+            }
+            
+            message += `\nTotal Estimate: ₹${(baseVenuePrice + 
+                (selectedCatering ? selectedCatering.price : 0) + 
+                (selectedDecoration ? selectedDecoration.price : 0)).toLocaleString()}`;
+                
+            message += "\n\nProceed with booking?";
+            
+            if (confirm(message)) {
+                alert('Booking confirmed! We will contact you shortly for final confirmation.');
+                // In a real application, you would submit the form here
+                // document.getElementById('booking-form').submit();
+            }
+        }
     </script>
 </body>
 </html>
