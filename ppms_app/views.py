@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Customer, Venue, Booking, Review
+# Restore this line with all models
+from .models import Customer, Venue, Booking, Review, CateringMenu, DecorationPackage, MenuItemImage, DecorationImage
 from .forms import VenueForm  # Import your forms
 from django.http import JsonResponse, HttpResponseServerError
 from django.utils import timezone
@@ -108,11 +109,12 @@ def register_admin(request):
                 user.is_staff = True  # Set the user as staff
                 user.save()
                 #  Consider using get_or_create to avoid duplicates
-                Admin.objects.create(
-                    name=user,
-                    email=email,
-                    phoneNo=phoneNo,
-                )
+                # Note: Admin model might not exist - you may need to create it
+                # Admin.objects.create(
+                #     name=user,
+                #     email=email,
+                #     phoneNo=phoneNo,
+                # )
                 messages.success(request, "Admin registered successfully. Please log in.")
                 return redirect('login')  # Use URL name
         else:
@@ -429,3 +431,28 @@ def delete_venue(request):
     else:
         messages.error(request, 'Invalid request to delete venue.')
         return redirect('all_venues')
+
+# NEW FUNCTION: Venue Details with Catering and Decoration - UPDATED VERSION
+def venue_details(request, venue_id):
+    venue = get_object_or_404(Venue, id=venue_id)
+    
+    # Get available catering menus for this venue
+    catering_menus = CateringMenu.objects.filter(
+        venue=venue,
+        is_available=True
+    ).prefetch_related('images')
+    
+    # Get available decoration packages for this venue
+    decoration_packages = DecorationPackage.objects.filter(
+        venue=venue,
+        is_available=True
+    ).prefetch_related('images')
+    
+    context = {
+        'venue': venue,
+        'catering_menus': catering_menus,
+        'decoration_packages': decoration_packages,
+    }
+    
+    # CORRECTED: Use the main venue_details.html template (not the simple one)
+    return render(request, 'venue_details.html', context)

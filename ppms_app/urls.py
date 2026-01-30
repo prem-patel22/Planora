@@ -43,4 +43,8 @@ urlpatterns = [
     path('index1/', views.index1, name='index1'),
     path('admin_login/', views.admin_login, name='admin_login'),
     path('delete_venue/', views.delete_venue, name='delete_venue'),
+    
+    # NEW URL: Venue Details with Catering and Decoration
+    path('venue/<int:venue_id>/', views.venue_details, name='venue-details'),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

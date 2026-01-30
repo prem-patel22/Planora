@@ -3,492 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Party Plot Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Infant:wght@400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+    <title>Add Venue - Party Plot Management</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
     <style>
         :root {
             --primary: #1a2e35;
             --secondary: #3a506b;
             --accent: #c8a97e;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gold: #d4af37;
             --green: #397B53;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #f9f9f9;
-            background-image: linear-gradient(to bottom right, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95)), url('/api/placeholder/1920/1080');
-            background-attachment: fixed;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-            color: var(--dark);
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background: #f5f5f5;
+            padding-bottom: 90px;
         }
 
-        /* Typography Enhancements */
-        h1, h2, h3, h4, h5, h6 {
+        h1, h2 {
             font-family: 'Playfair Display', serif;
             font-weight: 600;
-            letter-spacing: -0.02em;
         }
 
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            width: 70px;
-            height: 3px;
-            background-color: var(--accent);
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        p {
-            line-height: 1.8;
-        }
-
-        .gold-text {
-            color: var(--gold);
-        }
-
-        /* Enhanced Navbar */
+        /* Navbar */
         .navbarr {
-            background-color: rgba(38, 50, 56, 0.98);
-            color: white;
-            padding: 18px 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: #263238;
+            padding: 18px;
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
+            top: 0;
             z-index: 1000;
         }
 
         .navbarr-brand {
-            font-family: 'Playfair Display', serif;
+            color: #fff;
             font-size: 1.8rem;
             font-weight: 700;
             text-decoration: none;
-            color: white;
-            letter-spacing: 0.5px;
-            padding-left: 2rem;
-            position: relative;
-        }
-
-        .navbarr-brand::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 24px;
-            background-color: var(--accent);
         }
 
         .navbarr-nav {
             list-style: none;
-            margin: 0;
-            padding: 0;
             display: flex;
-            flex-grow: 1;
             justify-content: flex-end;
-            padding-right: 2rem;
+            margin: 0;
         }
 
         .navv-item {
-            margin-right: 25px;
-            position: relative;
+            margin-left: 20px;
         }
 
         .navv-link {
-            text-decoration: none;
-            color: white;
-            font-size: 0.95rem;
-            font-weight: 500;
+            color: #fff;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 10px 5px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .navv-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
+            font-size: 0.9rem;
+            text-decoration: none;
         }
 
         .navv-link:hover {
             color: var(--accent);
         }
 
-        .navv-link:hover::after {
-            width: 100%;
-        }
-
-        /* Enhanced Main Content */
+        /* Main */
         main {
-            padding: 80px 30px;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.95);
+            background: #fff;
+            max-width: 900px;
+            margin: 130px auto 40px;
+            padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            max-width: 1200px;
-            margin: 130px auto 40px auto;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
 
-        main::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--accent), var(--green));
-        }
-
-        /* Enhanced Card Styles */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 15px;
-            width: 100%;
-        }
-
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin-right: -15px;
-            margin-left: -15px;
-            width: 100%;
-            justify-content: center; /* Center the cards */
-        }
-
-        .col-md-4 {
-            flex: 0 0 calc(33.33% - 30px);
-            max-width: calc(33.33% - 30px);
-            padding: 0 15px;
-            margin-bottom: 30px; /* Add margin between cards */
-        }
-
-        .cardBody {
-            width: 100%;
-            display: flex;
-            align-items: stretch;
-            margin-bottom: 0;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: column;
-            border: none;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            background-color: #fff;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 40px rgba(200, 169, 126, 0.2);
-        }
-
-        .card-img-top {
-            height: 220px;
-            object-fit: cover;
-            width: 100%;
-            transition: transform 0.8s ease;
-        }
-
-        .card:hover .card-img-top {
-            transform: scale(1.05);
-        }
-
-        .card-body {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .card-title {
-            color: var(--primary);
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .card-text {
-            color: #6c757d;
-            font-size: 0.95rem;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-        }
-
-        .card-text::before {
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            margin-right: 10px;
-            color: var(--accent);
-            font-size: 1rem;
-        }
-
-        .card-text:nth-of-type(1)::before {
-            content: '\f3c5';
-        }
-
-        .card-text:nth-of-type(2)::before {
-            content: '\f0c0';
-        }
-
-        .card-text:nth-of-type(3)::before {
-            content: '\f155';
-        }
-
-        /* Enhanced Footer */
-        footer {
-            background-color: var(--green);
-            padding: 20px;
-            color: #fff;
-            text-align: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        footer p {
-            margin: 0;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            font-family: 'Karla', sans-serif;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 992px) {
-            .col-md-4 {
-                flex: 0 0 calc(50% - 30px);
-                max-width: calc(50% - 30px);
-            }
-
-            .navbarr {
-                padding: 15px 0;
-            }
-
-            .navbarr-brand {
-                font-size: 1.6rem;
-                padding-left: 1.5rem;
-            }
-
-            .navv-item {
-                margin-right: 15px;
-            }
-
-            h1 {
-                font-size: 2.4rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .col-md-4 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            main {
-                padding: 40px 20px;
-                margin: 130px 15px 40px 15px;
-                width: 100%;
-            }
-
-            .navbarr-nav {
-                padding-right: 1rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .navbarr-brand::before {
-                height: 20px;
-            }
-        }
-
-        /* Additional Premium Touches */
-        .mt-5 {
-            margin-top: 3rem;
-        }
-
-        .mb-4 {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Animation for page elements */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1, main p, .container {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        main p {
-            animation-delay: 0.2s;
-        }
-
-        .container {
-            animation-delay: 0.4s;
-        }
-
-        form {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-            margin-top: 2rem;
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        form label {
-            font-weight: 500;
-            color: var(--primary);
-            margin-bottom: 0.3rem;
-            display: block;
-            width: 120px;
-            text-align: left;
-            padding-right: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        form input[type="text"],
-        form input[type="number"],
-        form select,
-        form textarea,
-        form input[type="email"],
-        form input[type="password"]
-        {
-            width: calc(100% - 130px);
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            transition: border-color 0.3s ease;
-            margin-left: 130px;
-        }
-
-        form input[type="text"]:focus,
-        form input[type="number"]:focus,
-        form select:focus,
-        form textarea:focus,
-        form input[type="email"]:focus,
-        form input[type="password"]:focus
-        {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(200, 169, 126, 0.1);
-        }
-
-        form textarea {
-            resize: vertical;
-        }
-
-        form button[type="submit"] {
-            background-color: var(--accent);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1rem;
-        }
-
-        form button[type="submit"]:hover {
-            background-color: var(--green);
-        }
-
-        #addedVenue {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-            margin-top: 2rem;
-        }
-
-        #addedVenue h2 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        #addedVenue p {
-            color: var(--secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .preview-image-container {
-            margin-top: 1rem;
-            text-align: center;
-            margin-left: 130px;
-        }
-
-        .preview-image {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: none;
-            margin-top: 1rem;
-        }
-
+        /* Form */
         .form-group {
             display: flex;
             margin-bottom: 1rem;
@@ -496,179 +85,156 @@
         }
 
         .form-group label {
-            width: 120px;
-            text-align: left;
-            padding-right: 0.5rem;
-            padding-top: 0.5rem;
-            font-size: 0.9rem;
+            width: 160px;
+            font-weight: 500;
+            padding-top: 6px;
         }
 
         .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             flex: 1;
+            padding: 0.6rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
             font-size: 0.9rem;
         }
 
-        .form-group #availability {
-            display: flex;
-            flex-direction: row;
-            margin-left: 130px;
+        .form-group textarea {
+            resize: vertical;
         }
 
-        .form-group #availability label{
-            width: auto;
-            padding-right: 0.5rem;
-            padding-top: 0;
-            margin-bottom: 0;
-            font-size: 0.9rem;
+        button[type="submit"] {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-top: 15px;
+            cursor: pointer;
         }
 
+        button[type="submit"]:hover {
+            background: var(--green);
+        }
+
+        .preview-image {
+            max-width: 200px;
+            margin-top: 10px;
+            display: none;
+            border-radius: 8px;
+        }
+
+        footer {
+            background: var(--green);
+            color: #fff;
+            text-align: center;
+            padding: 18px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
+
 <body>
-    <header>
-        <nav class="navbarr">
-            <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
-            <ul class="navbarr-nav">
-                <li class="navv-item">
-                    <a class="navv-link" href="/add_venue.html">Add Venue</a>
-                </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="/all-venues">Edit Venue</a>
-                </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="/view_booking.html">View Booking</a>
-                </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="/get_reviews.html">Get Reviews</a>
-                </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="{% url 'logout' %}">Logout</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="container mt-5">
-            <h1 class="text-center">Party Plot Management</h1>
-            {% if messages %}
-            <div class="alert-messages">
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-            <div id="addVenueForm" class="mt-5">
-                <h2 class="mb-4">Add Venue</h2>
-                <form id="venueForm" method="post" enctype="multipart/form-data" action="{% url 'add_venue' %}">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="venueName">Venue Name:</label>
-                        <input type="text" class="form-control" id="venueName" name="venue_name" required>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="location">Location:</label>
-                        <input type="text" class="form-control" id="location" name="location" required>
-                    </div>
+<header>
+    <nav class="navbarr">
+        <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
+        <ul class="navbarr-nav">
+            <li class="navv-item"><a class="navv-link" href="/add_venue.html">Add Venue</a></li>
+            <li class="navv-item"><a class="navv-link" href="/all-venues">Edit Venue</a></li>
+            <li class="navv-item"><a class="navv-link" href="/view_booking.html">View Booking</a></li>
+            <li class="navv-item"><a class="navv-link" href="/get_reviews.html">Get Reviews</a></li>
+            <li class="navv-item"><a class="navv-link" href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+</header>
 
-                    <div class="form-group">
-                        <label for="capacity">Capacity:</label>
-                        <input type="number" class="form-control" id="capacity" name="capacity" required>
-                    </div>
+<main>
+    <h1 class="text-center mb-4">Add Venue</h1>
 
-                    <div class="form-group">
-                        <label for="amenities">Amenities:</label>
-                        <textarea class="form-control" id="amenities" name="amenities" rows="4" required></textarea>
-                    </div>
+    <form method="post" enctype="multipart/form-data" action="{% url 'add_venue' %}">
+        {% csrf_token %}
 
-                    <div class="form-group">
-                        <label for="pricing">Pricing:</label>
-                        <input type="text" class="form-control" id="pricing" name="pricing" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="availability">Availability:</label>
-                        <select class="form-control" id="availability" name="availability" required>
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="image">Image:</label>
-                        <input type="file" class="form-control-file" id="image" name="image" accept="image/*" onchange="previewImage(this);">
-                        <div class="preview-image-container">
-                            <img id="imagePreview" class="preview-image" src="#" alt="Image Preview">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Add Venue</button>
-                </form>
-            </div>
-
-            <div id="addedVenue" class="mt-5" style="display: none;">
-                <h2 class="mb-4">Added Venue</h2>
-                <p id="venueDetails"></p>
-            </div>
+        <div class="form-group">
+            <label>Venue Name</label>
+            <input type="text" name="venue_name" required>
         </div>
-    </main>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <div class="form-group">
+            <label>Location</label>
+            <input type="text" name="location" required>
+        </div>
 
-    <script>
-        function addVenue(event) {
-            event.preventDefault();
+        <div class="form-group">
+            <label>Capacity</label>
+            <input type="number" name="capacity" required>
+        </div>
 
-            var venueName = document.getElementById("venueName").value;
-            var location = document.getElementById("location").value;
-            var capacity = document.getElementById("capacity").value;
-            var amenities = document.getElementById("amenities").value;
-            var pricing = document.getElementById("pricing").value;
-            var availability = document.getElementById("availability").value;
-            var image = document.getElementById("image").value;
+        <div class="form-group">
+            <label>Amenities</label>
+            <textarea name="amenities" rows="3" required></textarea>
+        </div>
 
-            var venueDetails = document.getElementById("venueDetails");
-            venueDetails.innerHTML = `
-                <strong>Venue Name:</strong> ${venueName}<br>
-                <strong>Location:</strong> ${location}<br>
-                <strong>Capacity:</strong> ${capacity}<br>
-                <strong>Amenities:</strong> ${amenities}<br>
-                <strong>Pricing:</strong> ${pricing}<br>
-                <strong>Availability:</strong> ${availability}<br>
-                <strong>Image:</strong> ${image ? 'Uploaded' : 'Not uploaded'}<br>
-                <strong>Status:</strong> ${availability === 'yes' ? 'Booked' : 'Not Booked'}<br>
-            `;
+        <div class="form-group">
+            <label>Catering Menu</label>
+            <textarea name="catering_menu" rows="3" placeholder="List catering options available"></textarea>
+        </div>
 
-            var addVenueForm = document.getElementById("addVenueForm");
-            addVenueForm.style.display = "none";
+        <div class="form-group">
+            <label>Decoration Options</label>
+            <textarea name="decoration_options" rows="3" placeholder="List decoration options available"></textarea>
+        </div>
 
-            var addedVenue = document.getElementById("addedVenue");
-            addedVenue.style.display = "block";
+        <div class="form-group">
+            <label>Pricing</label>
+            <input type="text" name="pricing" required>
+        </div>
+
+        <div class="form-group">
+            <label>Availability</label>
+            <select name="availability" required>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Venue Image</label>
+            <input type="file" name="image" accept="image/*" onchange="previewImage(this)">
+        </div>
+
+        <img id="imagePreview" class="preview-image">
+
+        <button type="submit">
+            <i class="fas fa-plus-circle"></i> Add Venue
+        </button>
+    </form>
+</main>
+
+<footer>
+    <p>&copy; 2025 Party Plot Management System. All rights reserved.</p>
+</footer>
+
+<script>
+    function previewImage(input) {
+        const preview = document.getElementById("imagePreview");
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            preview.src = reader.result;
+            preview.style.display = "block";
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
         }
+    }
+</script>
 
-        function previewImage(input) {
-            var preview = document.getElementById('imagePreview');
-            var file = input.files[0];
-            var reader = new FileReader();
-
-            reader.onloadend = function () {
-                preview.src = reader.result;
-                preview.style.display = "block";
-            }
-
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                preview.src = "#";
-                preview.style.display = "none";
-            }
-        }
-    </script>
 </body>
 </html>

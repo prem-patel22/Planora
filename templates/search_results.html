@@ -26,9 +26,9 @@
        
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95)), url('/api/placeholder/1920/1080');
+            /* FIXED: Removed the broken background image URL */
+            background: linear-gradient(135deg, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95));
             background-attachment: fixed;
-            background-size: cover;
             color: var(--dark);
             min-height: 100vh;
             position: relative;
@@ -214,12 +214,16 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(200, 169, 126, 0.3);
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
        
         .btn-details:hover {
             background-color: #b69566;
             color: white;
             box-shadow: 0 8px 20px rgba(200, 169, 126, 0.4);
+            transform: translateY(-2px);
         }
        
         /* Venue Details Submenu - FIXED POSITIONING */
@@ -429,7 +433,11 @@
                 <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
                     <div class="card venue-card">
                         <div style="overflow: hidden;">
+                            {% if venue.image %}
                             <img src="{{ venue.image.url }}" class="card-img-top" alt="{{ venue.venue_name }}">
+                            {% else %}
+                            <img src="https://via.placeholder.com/400x220/CCCCCC/666666?text=No+Image" class="card-img-top" alt="{{ venue.venue_name }}">
+                            {% endif %}
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ venue.venue_name }}</h5>
@@ -440,24 +448,28 @@
                             </div>
                            
                             <div class="card-info">
-                                <span class="info-icon"><i class="fas fa-users"></i></span>
-                                <span class="card-text">Capacity: {{ venue.capacity }}</span>
-                            </div>
-                           
-                            <div class="card-info">
                                 <span class="info-icon"><i class="fas fa-concierge-bell"></i></span>
-                                <span class="card-text">{{ venue.amenities }}</span>
+                                <span class="card-text">{{ venue.amenities|default:"Standard amenities" }}</span>
+                            </div>
+
+                            <div class="card-info">
+                                <span class="info-icon"><i class="fas fa-utensils"></i></span>
+                                <span class="card-text">Catering: {{ venue.catering_menus.count|default:"0" }} options available</span>
+                            </div>
+
+                            <div class="card-info">
+                                <span class="info-icon"><i class="fas fa-palette"></i></span>
+                                <span class="card-text">Decorations: {{ venue.decoration_packages.count|default:"0" }} packages available</span>
                             </div>
                            
                             <div class="price-tag">
                                 <i class="fas fa-rupee-sign"></i> {{ venue.pricing }}
                             </div>
                            
-                            <div class="venue-details-wrapper">
-                                <button class="btn btn-details" data-venue-id="{{ forloop.counter }}">
-                                    <i class="fas fa-info-circle me-2"></i>Venue Details
-                                </button>
-                            </div>
+                            <!-- UPDATED: Direct link to venue details page -->
+                            <a href="{% url 'venue-details' venue.id %}" class="btn btn-details">
+                                <i class="fas fa-info-circle me-2"></i>View Details
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -472,32 +484,6 @@
                     </a>
                 </div>
             {% endif %}
-        </div>
-    </div>
-
-    <!-- Modal for Venue Details -->
-    <div class="modal fade" id="venueDetailsModal" tabindex="-1" aria-labelledby="venueDetailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: var(--accent); color: white;">
-                    <h5 class="modal-title" id="venueDetailsModalLabel">Venue Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <a href="#" id="bookVenueLink" class="text-decoration-none">
-                                <i class="fas fa-calendar-check me-2" style="color: var(--accent);"></i> Book Venue
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="{% url 'images' %}" class="text-decoration-none">
-                                <i class="fas fa-images me-2" style="color: var(--accent);"></i> View Gallery
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -516,41 +502,6 @@
                 duration: 800,
                 easing: 'ease-in-out',
                 once: true
-            });
-           
-            // Store venue data for modal
-            const venueData = [
-                {% for venue in venues %}
-                {
-                    name: "{{ venue.venue_name }}",
-                    price: "{{ venue.pricing }}"
-                },
-                {% endfor %}
-            ];
-           
-            // Venue details modal functionality
-            const detailsButtons = document.querySelectorAll('.btn-details');
-            const venueDetailsModal = new bootstrap.Modal(document.getElementById('venueDetailsModal'));
-            const bookVenueLink = document.getElementById('bookVenueLink');
-           
-            detailsButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const venueId = this.getAttribute('data-venue-id') - 1; // Adjust for zero-based index
-                   
-                    // Update modal title with venue name
-                    if (venueData[venueId]) {
-                        document.getElementById('venueDetailsModalLabel').textContent =
-                            venueData[venueId].name + " - Details";
-                       
-                        // Update book venue link
-                        bookVenueLink.href = "{% url 'book_venue' %}?venue_name=" +
-                            encodeURIComponent(venueData[venueId].name) +
-                            "&booking_price=" + encodeURIComponent(venueData[venueId].price);
-                    }
-                   
-                    // Show the modal
-                    venueDetailsModal.show();
-                });
             });
         });
     </script>

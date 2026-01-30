@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Venues - Party Plot Management</title>
+
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Infant:wght@400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Icons & Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         :root {
             --primary: #1a2e35;
             --secondary: #3a506b;
             --accent: #c8a97e;
-            --light: #f8f9fa;
             --dark: #212529;
             --gold: #d4af37;
             --green: #397B53;
@@ -20,212 +24,138 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #f9f9f9;
-            background-image: linear-gradient(to bottom right, rgba(245, 245, 245, 0.9), rgba(248, 248, 248, 0.95)), url('/api/placeholder/1920/1080');
-            background-attachment: fixed;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-            color: var(--dark);
+            background: linear-gradient(to bottom right, rgba(245,245,245,.9), rgba(248,248,248,.95));
             min-height: 100vh;
-            position: relative;
             padding-bottom: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Typography Enhancements */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            letter-spacing: -0.02em;
         }
 
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            margin-bottom: 1rem;
             position: relative;
             display: inline-block;
         }
 
         h1::after {
             content: '';
-            position: absolute;
             width: 70px;
             height: 3px;
-            background-color: var(--accent);
-            bottom: -12px;
+            background: var(--accent);
+            position: absolute;
             left: 50%;
+            bottom: -10px;
             transform: translateX(-50%);
         }
 
-        p {
-            line-height: 1.8;
-        }
-
-        .gold-text {
-            color: var(--gold);
-        }
-
-        /* Enhanced Navbar */
+        /* Navbar */
         .navbarr {
-            background-color: rgba(38, 50, 56, 0.98);
-            color: white;
+            background: rgba(38, 50, 56, 0.98);
             padding: 18px 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.4s ease;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
         }
 
         .navbarr-brand {
-            font-family: 'Playfair Display', serif;
+            color: #fff;
             font-size: 1.8rem;
+            padding-left: 2rem;
             font-weight: 700;
             text-decoration: none;
-            color: white;
-            letter-spacing: 0.5px;
-            padding-left: 2rem;
             position: relative;
-        }
-
-        .navbarr-brand::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 24px;
-            background-color: var(--accent);
         }
 
         .navbarr-nav {
             list-style: none;
-            margin: 0;
-            padding: 0;
             display: flex;
-            flex-grow: 1;
-            justify-content: flex-end;
             padding-right: 2rem;
+            margin: 0;
         }
 
         .navv-item {
             margin-right: 25px;
-            position: relative;
         }
 
         .navv-link {
-        text-decoration: none;
-        color: white;
-        font-size: 0.95rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding: 10px 5px;
-        transition: all 0.3s ease;
-        position: relative;
+            color: white;
+            text-transform: uppercase;
+            font-size: .9rem;
+            text-decoration: none !important;
+            letter-spacing: 1px;
+            position: relative;
         }
-        
 
         .navv-link::after {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: 0; /* Adjust as needed */
-        left: 0;
-        background-color: var(--accent);
-        transition: width 0.3s ease;
+            content: '';
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            transition: .3s;
         }
 
-
         .navv-link:hover {
-        color: var(--accent);
+            color: var(--accent);
         }
 
         .navv-link:hover::after {
-        width: 100%;
+            width: 100%;
         }
 
-
-        /* Enhanced Main Content */
+        /* Main */
         main {
-            padding: 80px 30px;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: #fff;
             max-width: 1200px;
-            margin: 130px auto 40px auto;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
+            margin: 140px auto 40px;
+            padding: 60px 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,.1);
         }
 
-        main::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--accent), var(--green));
-        }
-
-        /* Enhanced Table Styling */
+        /* Table */
         .venue-table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             margin-top: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,.05);
             border-radius: 12px;
             overflow: hidden;
         }
 
         .venue-table thead th {
-            background-color: var(--primary);
+            background: var(--primary);
             color: white;
             padding: 1rem;
-            font-weight: 600;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
             text-transform: uppercase;
-            border: none;
-            text-align: left;
-        }
-
-        .venue-table tbody tr {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            transition: background-color 0.3s ease;
-        }
-
-        .venue-table tbody tr:hover {
-            background-color: rgba(200, 169, 126, 0.05);
-        }
-
-        .venue-table tbody tr:last-child {
-            border-bottom: none;
+            font-size: .85rem;
         }
 
         .venue-table tbody td {
             padding: 1rem;
+            font-size: .9rem;
             color: var(--secondary);
-            font-size: 0.95rem;
             vertical-align: middle;
-            border-top: none;
         }
 
-        /* Action Buttons */
+        .venue-table tbody tr:hover {
+            background: rgba(200,169,126,.05);
+        }
+
+        .description-cell {
+            max-width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Buttons */
         .action-btns {
             display: flex;
             gap: 10px;
@@ -233,313 +163,143 @@
         }
 
         .btn-edit, .btn-delete {
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             border: none;
+            padding: 8px 14px;
+            font-size: .85rem;
+            border-radius: 6px;
+            color: #fff;
             cursor: pointer;
         }
 
         .btn-edit {
-            background-color: var(--accent);
-            color: white;
+            background: var(--accent);
         }
 
         .btn-edit:hover {
-            background-color: #b89a6e;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(200, 169, 126, 0.3);
+            background: #b89a6e;
         }
 
         .btn-delete {
-            background-color: #e74c3c;
-            color: white;
+            background: #e74c3c;
         }
 
         .btn-delete:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+            background: #c0392b;
         }
 
-        .btn-icon {
-            margin-right: 5px;
-            font-size: 0.85rem;
-        }
-
-        /* Alert Styles */
-        .alert-messages {
-            width: 100%;
-            margin-bottom: 2rem;
-        }
-
-        .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .alert-success {
-            background-color: rgba(57, 123, 83, 0.1);
-            border-left: 4px solid var(--green);
-            color: var(--green);
-        }
-
-        .alert-danger {
-            background-color: rgba(231, 76, 60, 0.1);
-            border-left: 4px solid #e74c3c;
-            color: #e74c3c;
-        }
-
-        .alert-info {
-            background-color: rgba(52, 152, 219, 0.1);
-            border-left: 4px solid #3498db;
-            color: #2980b9;
-        }
-
-        /* Enhanced Footer */
         footer {
-            background-color: var(--green);
-            padding: 20px;
-            color: #fff;
-            text-align: center;
             position: fixed;
             bottom: 0;
-            left: 0;
             width: 100%;
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            background: var(--green);
+            color: #fff;
+            text-align: center;
+            padding: 15px;
         }
 
-        footer p {
-            margin: 0;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            font-family: 'Karla', sans-serif;
-        }
-
-        /* Responsive Adjustments */
         @media (max-width: 992px) {
-            .navbarr {
-                padding: 15px 0;
-            }
-
-            .navbarr-brand {
-                font-size: 1.6rem;
-                padding-left: 1.5rem;
-            }
-
-            .navv-item {
-                margin-right: 15px;
-            }
-
-            h1 {
-                font-size: 2.4rem;
-            }
-
             .venue-table {
                 display: block;
                 overflow-x: auto;
                 white-space: nowrap;
             }
         }
-
-        @media (max-width: 768px) {
-            main {
-                padding: 40px 15px;
-                margin: 110px 15px 40px 15px;
-            }
-
-            .navbarr-nav {
-                padding-right: 1rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .navbarr-brand::before {
-                height: 20px;
-            }
-
-            .action-btns {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            .btn-edit, .btn-delete {
-                width: 100%;
-            }
-        }
-
-        /* Animation for page elements */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1, main p, .container {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        main p {
-            animation-delay: 0.2s;
-        }
-
-        .container {
-            animation-delay: 0.4s;
-        }
-
-        /* Description cell with text truncation */
-        .description-cell {
-            max-width: 250px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .navv-link,
-        .navv-link:link,
-        .navv-link:visited,
-        .navv-link:hover,
-        .navv-link:active,
-        .navv-link:focus {
-            text-decoration: none !important;
-        }
-
     </style>
 </head>
+
 <body>
-    <header>
-        <nav class="navbarr">
-            <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
-            <ul class="navbarr-nav">
-                <li class="navv-item">
-                    <a class="navv-link" href="/add_venue.html">Add Venue</a>
-                </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="/all-venues">Edit Venue</a>
-                </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="/view_booking.html">View Booking</a>
-                </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="/get_reviews.html">Get Reviews</a>
-                </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="{% url 'logout' %}">Logout</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <div class="container">
-            <h1>All Venues</h1>
-            <p class="text-muted">Manage your venue listings with ease</p>
 
-            {% if messages %}
-            <div class="alert-messages">
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
+<header>
+    <nav class="navbarr">
+        <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
+        <ul class="navbarr-nav">
+            <li class="navv-item"><a class="navv-link" href="/add_venue.html">Add Venue</a></li>
+            <li class="navv-item"><a class="navv-link" href="/all-venues">Edit Venue</a></li>
+            <li class="navv-item"><a class="navv-link" href="/view_booking.html">View Booking</a></li>
+            <li class="navv-item"><a class="navv-link" href="/get_reviews.html">Get Reviews</a></li>
+            <li class="navv-item"><a class="navv-link" href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+</header>
 
-            <div class="table-responsive">
-                <table class="venue-table">
-                    <thead>
-                        <tr>
-                            <th>Venue Name</th>
-                            <th>Location</th>
-                            <th>Capacity</th>
-                            <th>Pricing</th>
-                            <th>Availability</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for venue in venues %}
-                        <tr>
-                            <td><strong>{{ venue.venue_name }}</strong></td>
-                            <td><i class="fas fa-map-marker-alt text-muted mr-1"></i> {{ venue.location }}</td>
-                            <td><i class="fas fa-users text-muted mr-1"></i> {{ venue.capacity }}</td>
-                            <td><i class="fas fa-tag text-muted mr-1"></i> {{ venue.pricing }}</td>
-                            <td>
-                                {% if venue.availability == 'yes' %}
-                                    <span class="badge badge-success" style="background-color: var(--green); padding: 5px 10px; border-radius: 30px;">Available</span>
-                                {% else %}
-                                    <span class="badge badge-danger" style="background-color: #e74c3c; padding: 5px 10px; border-radius: 30px;">Not Available</span>
-                                {% endif %}
-                            </td>
-                            <td class="description-cell" title="{{ venue.amenities }}">{{ venue.amenities }}</td>
-                            <td>
-                                <div class="action-btns">
-                                    <form method="post" action="{% url 'edit_venue' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="venue_name" value="{{ venue.venue_name }}">
-                                        <button type="submit" class="btn-edit">
-                                            <i class="fas fa-edit btn-icon"></i> Edit
-                                        </button>
-                                    </form>
-                                    <form method="post" action="{% url 'delete_venue' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="venue_name" value="{{ venue.venue_name }}">
-                                        <button type="submit" class="btn-delete">
-                                            <i class="fas fa-trash-alt btn-icon"></i> Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+<main>
+    <div class="container text-center">
+        <h1>All Venues</h1>
+        <p class="text-muted mb-4">Manage your venue listings with ease</p>
 
-            <div class="mt-5">
-                <a href="/add_venue.html" class="btn-edit" style="text-decoration: none; padding: 12px 25px;">
-                    <i class="fas fa-plus-circle mr-2"></i> Add New Venue
-                </a>
-            </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="table-responsive">
+            <table class="venue-table">
+                <thead>
+                    <tr>
+                        <th>Venue Name</th>
+                        <th>Location</th>
+                        <th>Capacity</th>
+                        <th>Pricing</th>
+                        <th>Availability</th>
+                        <th>Description</th>
+                        <th>Catering Menu</th>
+                        <th>Decoration Options</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for venue in venues %}
+                    <tr>
+                        <td><strong>{{ venue.venue_name }}</strong></td>
+                        <td><i class="fas fa-map-marker-alt mr-1"></i>{{ venue.location }}</td>
+                        <td><i class="fas fa-users mr-1"></i>{{ venue.capacity }}</td>
+                        <td><i class="fas fa-tag mr-1"></i>{{ venue.pricing }}</td>
+                        <td>
+                            {% if venue.availability == 'yes' %}
+                                <span class="badge badge-success">Available</span>
+                            {% else %}
+                                <span class="badge badge-danger">Not Available</span>
+                            {% endif %}
+                        </td>
+                        <td class="description-cell" title="{{ venue.amenities }}">{{ venue.amenities }}</td>
+                        <td class="description-cell" title="{{ venue.catering_menu }}">{{ venue.catering_menu|default:"Not specified" }}</td>
+                        <td class="description-cell" title="{{ venue.decoration_options }}">{{ venue.decoration_options|default:"Not specified" }}</td>
+                        <td>
+                            <div class="action-btns">
+                                <form method="post" action="{% url 'edit_venue' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="venue_name" value="{{ venue.venue_name }}">
+                                    <button class="btn-edit" type="submit">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                </form>
+                                <form method="post" action="{% url 'delete_venue' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="venue_name" value="{{ venue.venue_name }}">
+                                    <button class="btn-delete" type="submit">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2025 Party Plot Management System. All rights reserved.</p>
-    </footer>
+        <div class="mt-5">
+            <a href="/add_venue.html" class="btn-edit text-decoration-none">
+                <i class="fas fa-plus-circle mr-2"></i> Add New Venue
+            </a>
+        </div>
+    </div>
+</main>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<footer>
+    <p>&copy; 2025 Party Plot Management System. All rights reserved.</p>
+</footer>
 
-    <script>
-        // Initialize AOS library for animations
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
-        });
-
-        // Add hover effect to table rows
-        document.querySelectorAll('.venue-table tbody tr').forEach(row => {
-            row.addEventListener('mouseenter', () => {
-                row.style.transform = 'translateY(-2px)';
-                row.style.transition = 'transform 0.3s ease';
-            });
-
-            row.addEventListener('mouseleave', () => {
-                row.style.transform = 'translateY(0)';
-            });
-        });
-    </script>
 </body>
 </html>

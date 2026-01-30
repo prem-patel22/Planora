@@ -425,6 +425,8 @@
                                 <th>Pricing</th>
                                 <th>Availability</th>
                                 <th>Amenities</th>
+                                <th>Catering Menu</th>
+                                <th>Decoration Options</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -446,6 +448,8 @@
                                     {% endif %}
                                 </td>
                                 <td class="venue-amenities" title="{{ booking.venue.amenities }}">{{ booking.venue.amenities }}</td>
+                                <td class="venue-catering" title="{{ booking.venue.catering_menu }}">{{ booking.venue.catering_menu|default:"Not specified" }}</td>
+                                <td class="venue-decorations" title="{{ booking.venue.decoration_options }}">{{ booking.venue.decoration_options|default:"Not specified" }}</td>
                                 <td>
                                     <form method="post" action="{% url 'cancel_booking' %}">
                                         {% csrf_token %}

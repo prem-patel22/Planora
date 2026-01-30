@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ venue.venue_name }} - Details</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a2e35;
+            --secondary: #3a506b;
+            --accent: #c8a97e;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .venue-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        {% if venue.image %}url('{{ venue.image.url }}'){% else %}url('https://via.placeholder.com/1920x400/CCCCCC/666666?text=Venue+Image'){% endif %};
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0 40px;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .price-badge {
+            background-color: var(--accent);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--accent);
+            border: none;
+            color: white;
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: #b69566;
+            color: white;
+        }
+        
+        .amenities-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .amenities-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .amenities-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .amenities-list i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">SmartPlot</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'search_venues' %}">Search</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Venue Header -->
+    <div class="venue-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-4">{{ venue.venue_name }}</h1>
+                    <p class="lead">{{ venue.location }}</p>
+                    <div class="d-flex gap-3 mb-3">
+                        <span><i class="fas fa-users me-1"></i> Capacity: {{ venue.capacity }} guests</span>
+                        <span><i class="fas fa-rupee-sign me-1"></i> {{ venue.pricing }}</span>
+                        <span><i class="fas fa-check-circle me-1"></i> Available</span>
+                    </div>
+                </div>
+                <div class="col-md-4 text-end">
+                    <a href="{% url 'book_venue' %}?venue_name={{ venue.venue_name }}&booking_price={{ venue.pricing }}" 
+                       class="btn btn-success btn-lg me-2">
+                        <i class="fas fa-calendar-check me-2"></i>Book Now
+                    </a>
+                    <a href="#gallery" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-images me-2"></i>View Gallery
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Venue Description -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="section-title">About This Venue</h3>
+                <p class="lead">{{ venue.description|default:"No description available." }}</p>
+                
+                <h5 class="mt-4">Amenities:</h5>
+                <div class="row">
+                    {% if venue.amenities %}
+                    <!-- FIXED: JavaScript-based split to avoid template filter error -->
+                    <div id="amenities-container">
+                        <p>{{ venue.amenities }}</p>
+                    </div>
+                    {% else %}
+                    <p>Standard amenities included</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Catering Menus Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="section-title">
+                    <i class="fas fa-utensils me-2"></i>Catering Menus
+                    <span class="badge bg-secondary ms-2">{{ catering_menus|length }} options</span>
+                </h3>
+                
+                {% if catering_menus %}
+                <div class="row">
+                    {% for menu in catering_menus %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            {% if menu.images.exists %}
+                            <img src="{{ menu.images.first.image.url }}" class="card-img-top" alt="{{ menu.name }}">
+                            {% else %}
+                            <img src="https://via.placeholder.com/400x200/CCCCCC/666666?text=Catering" class="card-img-top" alt="Catering">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ menu.name }}</h5>
+                                <p class="card-text">{{ menu.description|truncatewords:20 }}</p>
+                                
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="price-badge">
+                                        <i class="fas fa-rupee-sign"></i> {{ menu.price_per_person }}/person
+                                    </span>
+                                    {% if menu.is_vegetarian %}
+                                    <span class="badge bg-success">Vegetarian</span>
+                                    {% endif %}
+                                </div>
+                                
+                                <p class="mb-2">
+                                    <i class="fas fa-users me-1"></i>
+                                    For {{ menu.min_guests }} - {{ menu.max_guests }} guests
+                                </p>
+                                
+                                <button class="btn btn-primary-custom w-100 select-menu-btn"
+                                        data-menu-id="{{ menu.id }}"
+                                        data-menu-name="{{ menu.name }}"
+                                        data-menu-price="{{ menu.price_per_person }}">
+                                    <i class="fas fa-check me-1"></i>Select Menu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No catering menus available for this venue. Please contact the venue for catering options.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Decoration Packages Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="section-title">
+                    <i class="fas fa-palette me-2"></i>Decoration Packages
+                    <span class="badge bg-secondary ms-2">{{ decoration_packages|length }} packages</span>
+                </h3>
+                
+                {% if decoration_packages %}
+                <div class="row">
+                    {% for package in decoration_packages %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            {% if package.images.exists %}
+                            <img src="{{ package.images.first.image.url }}" class="card-img-top" alt="{{ package.name }}">
+                            {% else %}
+                            <img src="https://via.placeholder.com/400x200/CCCCCC/666666?text=Decoration" class="card-img-top" alt="Decoration">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ package.name }}</h5>
+                                <span class="badge bg-warning text-dark mb-2">{{ package.theme }}</span>
+                                <p class="card-text">{{ package.description|truncatewords:15 }}</p>
+                                
+                                <div class="mb-3">
+                                    <h4 class="text-primary">
+                                        <i class="fas fa-rupee-sign"></i> {{ package.price }}
+                                    </h4>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <h6>Includes:</h6>
+                                    <ul class="list-unstyled small" id="includes-{{ forloop.counter }}">
+                                        <!-- FIXED: Single item display to avoid split filter -->
+                                        <li><i class="fas fa-check text-success me-1"></i>{{ package.includes_items }}</li>
+                                    </ul>
+                                </div>
+                                
+                                <button class="btn btn-primary-custom w-100 select-package-btn"
+                                        data-package-id="{{ package.id }}"
+                                        data-package-name="{{ package.name }}"
+                                        data-package-price="{{ package.price }}">
+                                    <i class="fas fa-check me-1"></i>Select Package
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No decoration packages available. Please contact the venue for decoration options.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Booking Summary -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">
+                            <i class="fas fa-shopping-cart me-2"></i>Your Booking Summary
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h5>Venue</h5>
+                                <p class="mb-1"><strong>{{ venue.venue_name }}</strong></p>
+                                <p class="text-muted">{{ venue.location }}</p>
+                                <h5 class="text-primary">₹{{ venue.pricing }}</h5>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <h5>Selected Catering</h5>
+                                <div id="selected-catering">
+                                    <p class="text-muted"><i>No menu selected</i></p>
+                                </div>
+                                <input type="hidden" id="selected_menu_id" value="">
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <h5>Selected Decoration</h5>
+                                <div id="selected-decoration">
+                                    <p class="text-muted"><i>No package selected</i></p>
+                                </div>
+                                <input type="hidden" id="selected_package_id" value="">
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="text-center">
+                            <a href="{% url 'book_venue' %}?venue_name={{ venue.venue_name }}&booking_price={{ venue.pricing }}" 
+                               class="btn btn-success btn-lg px-5">
+                                <i class="fas fa-calendar-check me-2"></i>Proceed to Booking
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p>&copy; 2024 SmartPlot Party Plot Management System</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple selection logic for menus and packages
+        document.querySelectorAll('.select-menu-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const name = this.dataset.menuName;
+                const price = this.dataset.menuPrice;
+                
+                document.getElementById('selected-catering').innerHTML = `
+                    <p><strong>${name}</strong></p>
+                    <p>₹${price}/person</p>
+                `;
+                document.getElementById('selected_menu_id').value = this.dataset.menuId;
+                
+                // Update button styles
+                document.querySelectorAll('.select-menu-btn').forEach(b => {
+                    b.classList.remove('btn-primary-custom');
+                    b.classList.add('btn-outline-primary');
+                });
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-primary-custom');
+            });
+        });
+        
+        document.querySelectorAll('.select-package-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const name = this.dataset.packageName;
+                const price = this.dataset.packagePrice;
+                
+                document.getElementById('selected-decoration').innerHTML = `
+                    <p><strong>${name}</strong></p>
+                    <p>₹${price}</p>
+                `;
+                document.getElementById('selected_package_id').value = this.dataset.packageId;
+                
+                // Update button styles
+                document.querySelectorAll('.select-package-btn').forEach(b => {
+                    b.classList.remove('btn-primary-custom');
+                    b.classList.add('btn-outline-primary');
+                });
+                this.classList.remove('btn-outline-primary');
+                this.classList.add('btn-primary-custom');
+            });
+        });
+        
+        // JavaScript-based amenities formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            // Format amenities if they exist
+            const amenitiesContainer = document.getElementById('amenities-container');
+            if (amenitiesContainer) {
+                const amenitiesText = amenitiesContainer.textContent.trim();
+                if (amenitiesText) {
+                    // Split by comma and create list items
+                    const amenitiesArray = amenitiesText.split(',').map(item => item.trim()).filter(item => item);
+                    if (amenitiesArray.length > 0) {
+                        amenitiesContainer.innerHTML = `
+                            <div class="row">
+                                ${amenitiesArray.map(amenity => `
+                                    <div class="col-md-4">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-check text-success me-2"></i>
+                                            <span>${amenity}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        `;
+                    }
+                }
+            }
+            
+            // Format decoration includes items
+            document.querySelectorAll('[id^="includes-"]').forEach(container => {
+                const originalText = container.textContent.trim();
+                if (originalText && originalText.includes(',')) {
+                    const itemsArray = originalText.split(',').map(item => item.trim()).filter(item => item);
+                    if (itemsArray.length > 1) {
+                        container.innerHTML = itemsArray.map(item => `
+                            <li><i class="fas fa-check text-success me-1"></i>${item}</li>
+                        `).join('');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
