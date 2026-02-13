@@ -26,7 +26,7 @@ urlpatterns = [
     path('search-venues/', views.search_venues, name='search_venues'),
     path('search_results/', views.search_results, name='search_results'),
     path('all-venues/', views.all_venues, name='all_venues'),
-    path('add_venue/', views.add_venue, name='add_venue'),  # Fixed: removed .html
+    path('add_venue/', views.add_venue, name='add_venue'),
     path('edit_venue/', views.edit_venue, name='edit_venue'),
     path('update_venue/', views.update_venue, name='update_venue'),
     path('delete_venue/', views.delete_venue, name='delete_venue'),
@@ -44,9 +44,11 @@ urlpatterns = [
     path('booking-availability/', views.booking_availability, name='booking_availability'),
     
     # NEW: Enhanced booking system with catering/decoration
-    path('venue/<int:venue_id>/', views.venue_details, name='venue_details'),  # Fixed: changed from 'venue-details' to 'venue_details'
+    # Add BOTH names for backward compatibility
+    path('venue/<int:venue_id>/', views.venue_details, name='venue_details'),           # With underscore (preferred)
+    path('venue-details/<int:venue_id>/', views.venue_details, name='venue-details'),   # With hyphen (for backward compatibility)
     path('create-booking/', views.create_booking, name='create_booking'),
-    path('booking-confirmation/', views.booking_confirmation, name='booking_confirmation'),  # ADD THIS LINE
+    path('booking-confirmation/', views.booking_confirmation, name='booking_confirmation'),
     path('get-user-bookings/', views.get_user_bookings, name='get_user_bookings'),
     
     # Information pages
@@ -59,6 +61,6 @@ urlpatterns = [
     
     # Reviews
     path('reviews/', views.reviews, name='reviews'),
-    path('get_reviews/', views.get_reviews, name='get_reviews'),  # Fixed: removed .html
+    path('get_reviews/', views.get_reviews, name='get_reviews'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
