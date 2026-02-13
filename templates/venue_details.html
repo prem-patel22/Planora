@@ -6,11 +6,14 @@
     <title>{{ venue.venue_name }} - Details</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --primary: #1a2e35;
             --secondary: #3a506b;
             --accent: #c8a97e;
+            --green: #397B53;
         }
         
         body {
@@ -105,6 +108,21 @@
             border: 2px solid var(--accent) !important;
             box-shadow: 0 0 20px rgba(200, 169, 126, 0.3);
         }
+        
+        .btn-success-custom {
+            background-color: var(--green);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-success-custom:hover {
+            background-color: #2d5f3e;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -119,6 +137,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'search_venues' %}">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
                     </li>
                 </ul>
             </div>
@@ -138,15 +159,6 @@
                         <span><i class="fas fa-check-circle me-1"></i> Available</span>
                     </div>
                 </div>
-                <div class="col-md-4 text-end">
-                    <a href="{% url 'book_venue' %}?venue_name={{ venue.venue_name }}&booking_price={{ venue.pricing }}" 
-                       class="btn btn-success btn-lg me-2">
-                        <i class="fas fa-calendar-check me-2"></i>Book Now
-                    </a>
-                    <a href="#gallery" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-images me-2"></i>View Gallery
-                    </a>
-                </div>
             </div>
         </div>
     </div>
@@ -161,7 +173,6 @@
                 <h5 class="mt-4">Amenities:</h5>
                 <div class="row">
                     {% if venue.amenities %}
-                    <!-- FIXED: JavaScript-based split to avoid template filter error -->
                     <div id="amenities-container">
                         <p>{{ venue.amenities }}</p>
                     </div>
@@ -281,7 +292,6 @@
                     
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 fallback-option" onclick="selectFallbackCatering('fusion', this)">
-                            <!-- FIXED IMAGE URL for Premium Fusion Cuisine -->
                             <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                                  class="card-img-top" alt="Premium Fusion Cuisine">
                             <div class="card-body">
@@ -350,7 +360,6 @@
                                 <div class="mb-3">
                                     <h6>Includes:</h6>
                                     <ul class="list-unstyled small" id="includes-{{ forloop.counter }}">
-                                        <!-- FIXED: Single item display to avoid split filter -->
                                         <li><i class="fas fa-check text-success me-1"></i>{{ package.includes_items }}</li>
                                     </ul>
                                 </div>
@@ -510,17 +519,19 @@
                         
                         <hr>
                         
+                        <!-- REPLACED: New Complete Booking button that redirects to confirmation page -->
                         <div class="text-center">
-                            <a href="{% url 'book_venue' %}?venue_name={{ venue.venue_name }}&booking_price={{ venue.pricing }}" 
-                               class="btn btn-success btn-lg px-5">
-                                <i class="fas fa-calendar-check me-2"></i>Proceed to Booking
-                            </a>
+                            <button class="btn btn-success btn-lg px-5" onclick="redirectToConfirmation()">
+                                <i class="fas fa-calendar-check me-2"></i>Complete Booking
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- REMOVED: Old Booking Modal - Now redirects to confirmation page -->
 
     <!-- Footer -->
     <footer class="bg-dark text-white py-4 mt-5">
@@ -561,6 +572,9 @@
                 <p><strong>${name}</strong></p>
                 <p>₹${price}</p>
             `;
+            
+            // Update form fields for later use
+            window.selectedCateringData = { name, price: price.replace(/,/g, '') };
             selectedCatering = { name, price };
         }
         
@@ -589,6 +603,9 @@
                 <p><strong>${name}</strong></p>
                 <p>₹${price}</p>
             `;
+            
+            // Update form fields for later use
+            window.selectedDecorationData = { name, price: price.replace(/,/g, '') };
             selectedDecoration = { name, price };
         }
         
@@ -603,6 +620,10 @@
                     <p>₹${price}/person</p>
                 `;
                 document.getElementById('selected_menu_id').value = this.dataset.menuId;
+                
+                // Store selected data
+                window.selectedCateringData = { name, price };
+                selectedCatering = { name, price };
                 
                 // Update button styles
                 document.querySelectorAll('.select-menu-btn').forEach(b => {
@@ -625,6 +646,10 @@
                 `;
                 document.getElementById('selected_package_id').value = this.dataset.packageId;
                 
+                // Store selected data
+                window.selectedDecorationData = { name, price };
+                selectedDecoration = { name, price };
+                
                 // Update button styles
                 document.querySelectorAll('.select-package-btn').forEach(b => {
                     b.classList.remove('btn-primary-custom');
@@ -642,7 +667,6 @@
             if (amenitiesContainer) {
                 const amenitiesText = amenitiesContainer.textContent.trim();
                 if (amenitiesText) {
-                    // Split by comma and create list items
                     const amenitiesArray = amenitiesText.split(',').map(item => item.trim()).filter(item => item);
                     if (amenitiesArray.length > 0) {
                         amenitiesContainer.innerHTML = `
@@ -674,6 +698,102 @@
                 }
             });
         });
+        
+        // NEW: Redirect to confirmation page
+        function redirectToConfirmation() {
+            if (!selectedCatering && !selectedDecoration) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No Selections',
+                    text: 'Please select at least one catering menu or decoration package before booking.',
+                    confirmButtonColor: '#c8a97e'
+                });
+                return;
+            }
+            
+            // Show a nice form using SweetAlert2 instead of prompt
+            Swal.fire({
+                title: 'Enter Booking Details',
+                html: `
+                    <div style="text-align: left;">
+                        <div class="mb-3">
+                            <label style="font-weight: 600; margin-bottom: 5px; display: block;">Event Date *</label>
+                            <input type="date" id="swal_booking_date" class="swal2-input" value="${new Date().toISOString().split('T')[0]}" min="${new Date().toISOString().split('T')[0]}" style="width: 100%;">
+                        </div>
+                        <div class="mb-3">
+                            <label style="font-weight: 600; margin-bottom: 5px; display: block;">Event Type</label>
+                            <select id="swal_event_type" class="swal2-input" style="width: 100%;">
+                                <option value="wedding">Wedding</option>
+                                <option value="birthday">Birthday</option>
+                                <option value="corporate">Corporate Event</option>
+                                <option value="engagement">Engagement</option>
+                                <option value="anniversary">Anniversary</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label style="font-weight: 600; margin-bottom: 5px; display: block;">Number of Guests</label>
+                            <input type="number" id="swal_guest_count" class="swal2-input" value="100" min="1" max="{{ venue.capacity }}" style="width: 100%;">
+                        </div>
+                        <div class="mb-3">
+                            <label style="font-weight: 600; margin-bottom: 5px; display: block;">Special Requests (Optional)</label>
+                            <textarea id="swal_special_requests" class="swal2-input" rows="2" style="width: 100%;"></textarea>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Continue',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#397B53',
+                cancelButtonColor: '#dc3545',
+                preConfirm: () => {
+                    const bookingDate = document.getElementById('swal_booking_date').value;
+                    const eventType = document.getElementById('swal_event_type').value;
+                    const guestCount = document.getElementById('swal_guest_count').value;
+                    const specialRequests = document.getElementById('swal_special_requests').value;
+                    
+                    if (!bookingDate) {
+                        Swal.showValidationMessage('Please select an event date');
+                        return false;
+                    }
+                    
+                    const today = new Date().toISOString().split('T')[0];
+                    if (bookingDate < today) {
+                        Swal.showValidationMessage('Please select a future date');
+                        return false;
+                    }
+                    
+                    if (!guestCount || guestCount < 1 || guestCount > {{ venue.capacity }}) {
+                        Swal.showValidationMessage(`Please enter a valid guest count between 1 and {{ venue.capacity }}`);
+                        return false;
+                    }
+                    
+                    return { bookingDate, eventType, guestCount, specialRequests };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const { bookingDate, eventType, guestCount, specialRequests } = result.value;
+                    
+                    // Build URL parameters
+                    const params = new URLSearchParams({
+                        venue_id: '{{ venue.id }}',
+                        venue_name: '{{ venue.venue_name }}',
+                        venue_price: '{{ venue.pricing }}',
+                        selected_catering: selectedCatering ? selectedCatering.name : '',
+                        selected_catering_price: selectedCatering ? selectedCatering.price.replace(/,/g, '') : '0',
+                        selected_decoration: selectedDecoration ? selectedDecoration.name : '',
+                        selected_decoration_price: selectedDecoration ? selectedDecoration.price.replace(/,/g, '') : '0',
+                        booking_date: bookingDate,
+                        event_type: eventType,
+                        guest_count: guestCount,
+                        special_requests: specialRequests || ''
+                    });
+                    
+                    // Redirect to confirmation page
+                    window.location.href = `{% url 'booking_confirmation' %}?${params.toString()}`;
+                }
+            });
+        }
     </script>
 </body>
 </html>
