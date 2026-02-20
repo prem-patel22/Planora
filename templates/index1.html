@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartPlot</title>
+    <title>SmartPlot - Admin Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Infant:wght@400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
@@ -80,7 +80,7 @@
             align-items: center;
             position: fixed;
             top: 0;
-            left: 0; /* Ensure navbar sticks to the left */
+            left: 0;
             width: 100%;
             z-index: 1000;
         }
@@ -164,7 +164,7 @@
             margin: 100px auto 40px auto;
             position: relative;
             overflow: hidden;
-            width: 100%; /* Ensure main content takes full width */
+            width: 100%;
         }
 
         main::before {
@@ -175,6 +175,48 @@
             width: 100%;
             height: 5px;
             background: linear-gradient(to right, var(--accent), var(--green));
+        }
+
+        /* Admin Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label {
+            color: var(--secondary);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Enhanced Card Styles */
@@ -254,24 +296,24 @@
         }
 
         .card-text {
-        color: #6c757d;
-        font-size: 0.95rem;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center; /* Vertically align icon and text */
-        text-align: left; /* Ensure text content is left-aligned */
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            text-align: left;
         }
 
         .card-text::before {
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 900;
-        margin-right: 10px;
-        color: var(--accent);
-        font-size: 1rem;
-        flex-shrink: 0; /* Prevent icon from shrinking */
-        width: 1.2em; /* Add some fixed width for consistent spacing */
-        text-align: center; /* Center the icon within its width */
-        display: inline-block; /* Ensure width is respected */
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin-right: 10px;
+            color: var(--accent);
+            font-size: 1rem;
+            flex-shrink: 0;
+            width: 1.2em;
+            text-align: center;
+            display: inline-block;
         }
 
         .card-text:nth-of-type(1)::before {
@@ -284,6 +326,53 @@
 
         .card-text:nth-of-type(3)::before {
             content: '\f155'; /* dollar icon */
+        }
+
+        /* Admin Action Buttons */
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-edit {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-edit:hover {
+            background-color: #b69566;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-delete:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
         }
 
         /* Enhanced Footer */
@@ -354,6 +443,10 @@
             .navbarr-brand::before {
                 height: 20px;
             }
+
+            .admin-actions {
+                flex-direction: column;
+            }
         }
 
         /* Additional Premium Touches */
@@ -371,7 +464,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h1, main p, .container {
+        h1, main p, .container, .stat-card {
             animation: fadeIn 0.8s ease-out forwards;
         }
 
@@ -382,24 +475,30 @@
         .container {
             animation-delay: 0.4s;
         }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
     <header>
         <nav class="navbarr">
-            <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
+            <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management - Admin</a>
             <ul class="navbarr-nav">
+                <!-- FIXED: Updated to use Django URL tags -->
                 <li class="navv-item">
-                    <a class="navv-link" href="/add_venue.html">Add Venue</a>
+                    <a class="navv-link" href="{% url 'add_venue' %}">Add Venue</a>
                 </li>
                 <li class="navv-item">
-                    <a class="navv-link" href="/all-venues">Edit Venue</a>
+                    <a class="navv-link" href="{% url 'all_venues' %}">All Venues</a>
                 </li>
                 <li class="navv-item">
-                    <a class="navv-link" href="/view_booking.html">View Booking</a>
+                    <a class="navv-link" href="{% url 'view_booking' %}">View Booking</a>
                 </li>
                 <li class="navv-item">
-                    <a class="navv-link" href="/get_reviews.html">Get Reviews</a>
+                    <a class="navv-link" href="{% url 'get_reviews' %}">Get Reviews</a>
                 </li>
                 <li class="navv-item">
                     <a class="navv-link" href="{% url 'logout' %}">Logout</a>
@@ -409,8 +508,43 @@
     </header>
 
     <main>
-        <h1>Welcome to the <span style="font-family: 'Cormorant Infant', serif;">Party Plot Management System</span></h1>
-        <p style="font-family: 'Karla', sans-serif;">Find the perfect venue for your next event and book it seamlessly.</p>
+        <h1>Admin Dashboard</h1>
+        <p style="font-family: 'Karla', sans-serif;">Welcome back, Admin! Manage your venues and bookings here.</p>
+
+        <!-- Admin Stats Section -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="stat-number">{{ venues_with_images|length }}</div>
+                <div class="stat-label">Total Venues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Total Bookings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Total Customers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Total Reviews</div>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 60px;">Your Venues</h2>
+        <p>Manage and edit your venue listings below.</p>
 
         <div class="container mt-5">
             <div class="row">
@@ -423,15 +557,35 @@
                             <p class="card-text">Location: {{ venue.location }}</p>
                             <p class="card-text">Capacity: {{ venue.capacity }}</p>
                             <p class="card-text">Pricing: {{ venue.pricing }}</p>
+                            
+                            <!-- Admin Action Buttons -->
+                            <div class="admin-actions">
+                                <a href="{% url 'edit_venue' %}?venue_name={{ venue.venue_name }}" class="btn-edit">
+                                    <i class="fas fa-edit me-1"></i>Edit
+                                </a>
+                                <button class="btn-delete" onclick="deleteVenue('{{ venue.venue_name }}')">
+                                    <i class="fas fa-trash-alt me-1"></i>Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">No venues added yet. <a href="{% url 'add_venue' %}">Add your first venue</a></p>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </main>
 
+    <footer>
+        <p>&copy; 2024 Party Plot Management System. All rights reserved.</p>
+    </footer>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
         // Initialize AOS animation
         document.addEventListener('DOMContentLoaded', function() {
@@ -441,6 +595,42 @@
                 once: true
             });
         });
+
+        // Delete venue function
+        function deleteVenue(venueName) {
+            Swal.fire({
+                title: 'Delete Venue?',
+                text: `Are you sure you want to delete "${venueName}"? This action cannot be undone.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#c8a97e',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Create a form and submit it
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '{% url "delete_venue" %}';
+                    
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = 'csrfmiddlewaretoken';
+                    csrfInput.value = '{{ csrf_token }}';
+                    
+                    const venueInput = document.createElement('input');
+                    venueInput.type = 'hidden';
+                    venueInput.name = 'venue_name';
+                    venueInput.value = venueName;
+                    
+                    form.appendChild(csrfInput);
+                    form.appendChild(venueInput);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
     </script>
 </body>
 </html>
