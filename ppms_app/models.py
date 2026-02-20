@@ -75,6 +75,12 @@ class Venue(models.Model):
     # Additional fields from second version
     description = models.TextField(blank=True)
 
+    # ===== NEW METHOD ADDED =====
+    def get_booking_count(self):
+        """Return the number of times this venue has been booked"""
+        return self.booking_set.count()
+    # ============================
+
     def __str__(self):
         return self.venue_name
     

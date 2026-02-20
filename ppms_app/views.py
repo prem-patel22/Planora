@@ -8,6 +8,7 @@ from .forms import VenueForm
 from django.http import JsonResponse, HttpResponseServerError
 from django.utils import timezone
 from datetime import datetime
+from django.db.models import Count  # ADD THIS IMPORT
 import json
 
 def logout_view(request):
@@ -315,7 +316,6 @@ def cancel_booking(request):
     if request.method == 'POST':
         booking_id = request.POST.get('booking_id')
         try:
-            # FIXED: Use booking_id field instead of id
             booking = Booking.objects.get(booking_id=booking_id)
             if booking.customer.name == request.user:
                 booking.delete()
@@ -339,9 +339,22 @@ def fetch_venue_location(request):
     venues = Venue.objects.all()
     return render(request, 'search_venues.html', {'venues': venues})
 
+# ===== UPDATED SEARCH_VENUES FUNCTION =====
 def search_venues(request):
+    """View for the search venues page with most booked venues section"""
     locations = Venue.objects.values_list('location', flat=True).distinct()
-    return render(request, 'search-venues.html', {'locations': locations})
+    
+    # Get most booked venues (top 6)
+    most_booked_venues = Venue.objects.annotate(
+        booking_count=Count('booking')
+    ).order_by('-booking_count')[:6]
+    
+    context = {
+        'locations': locations,
+        'most_booked_venues': most_booked_venues,
+    }
+    return render(request, 'search-venues.html', context)
+# ==========================================
 
 def edit_venue(request):
     venue_name = request.POST.get('venue_name')
@@ -432,7 +445,7 @@ def venue_details(request, venue_id):
     
     return render(request, 'venue_details.html', context)
 
-# FIXED: Create Booking with Catering and Decoration
+# Create Booking with Catering and Decoration
 @login_required
 def create_booking(request):
     if request.method == 'POST':
@@ -472,7 +485,6 @@ def create_booking(request):
                     'message': 'Venue is already booked for the selected date.'
                 })
             
-            # Create booking
             booking = Booking.objects.create(
                 date=booking_datetime,
                 booking_price=total_price,
@@ -488,11 +500,10 @@ def create_booking(request):
                 booking_status='confirmed'
             )
             
-            # FIXED: Use booking.booking_id instead of booking.id
             return JsonResponse({
                 'success': True,
                 'message': 'Booking created successfully',
-                'booking_id': booking.booking_id  # CHANGED: from booking.id to booking.booking_id
+                'booking_id': booking.booking_id
             })
             
         except Customer.DoesNotExist:
@@ -513,7 +524,7 @@ def create_booking(request):
     
     return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
-# FIXED: Get user bookings for AJAX
+# Get user bookings for AJAX
 @login_required
 def get_user_bookings(request):
     try:
@@ -524,7 +535,7 @@ def get_user_bookings(request):
         bookings_data = []
         for booking in bookings:
             booking_dict = {
-                'id': booking.booking_id,  # CHANGED: from booking.id to booking.booking_id
+                'id': booking.booking_id,
                 'venue_name': booking.venue.venue_name,
                 'venue_location': booking.venue.location,
                 'booking_date': booking.date.strftime('%Y-%m-%d'),
@@ -559,13 +570,12 @@ def get_user_bookings(request):
             'message': f'Error: {str(e)}'
         })
 
-# NEW: Booking Confirmation Page
+# Booking Confirmation Page
 @login_required
 def booking_confirmation(request):
     """Show booking confirmation page"""
     if request.method == 'GET':
         try:
-            # Get data from URL parameters
             venue_id = request.GET.get('venue_id')
             if not venue_id:
                 messages.error(request, 'Venue ID is required.')
@@ -573,7 +583,6 @@ def booking_confirmation(request):
                 
             venue = Venue.objects.get(id=venue_id)
             
-            # Get and convert price values
             selected_catering_price_str = request.GET.get('selected_catering_price', '0')
             selected_decoration_price_str = request.GET.get('selected_decoration_price', '0')
             
@@ -596,7 +605,6 @@ def booking_confirmation(request):
                 'special_requests': request.GET.get('special_requests', ''),
             }
             
-            # Calculate total
             try:
                 venue_price = int(str(venue.pricing).replace(',', ''))
             except ValueError:

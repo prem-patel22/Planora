@@ -95,93 +95,338 @@
             width: 100%;
         }
 
-        /* Search container styling */
+        /* Main Container */
         .search-container {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-top: 80px;
-            margin-bottom: 80px;
-            width: 90%;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
         }
 
-        .search-container h2 {
+        /* Search Card */
+        .search-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-bottom: 50px;
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .search-title {
             color: var(--primary);
-            font-size: 2.2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
             margin-bottom: 30px;
             text-align: center;
             position: relative;
         }
-
-        .search-container h2::after {
+        
+        .search-title::after {
             content: '';
             position: absolute;
-            width: 50px;
+            width: 80px;
             height: 3px;
             background-color: var(--accent);
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
         }
-
-        .form-group label {
-            color: var(--secondary);
+        
+        .search-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-label {
             font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 8px;
-            display: block;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
         }
-
-        .form-control {
+        
+        .form-select {
+            padding: 15px;
             border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            padding: 12px;
+            border-radius: 10px;
             font-size: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
             width: 100%;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
         }
-
-        .form-control:focus {
-            outline: none;
+        
+        .form-select:hover {
             border-color: var(--accent);
-            box-shadow: 0 5px 15px rgba(200, 169, 126, 0.2);
         }
-
-        .btn-primary {
+        
+        .form-select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(200, 169, 126, 0.2);
+        }
+        
+        .search-btn {
             background-color: var(--accent);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
+            padding: 15px 40px;
+            border-radius: 50px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(200, 169, 126, 0.3);
+            font-size: 1.1rem;
             width: 100%;
-            max-width: 300px;
-            margin: 20px auto 0;
-            display: block;
+            transition: all 0.3s;
+            margin-top: 20px;
         }
-
-        .btn-primary:hover {
+        
+        .search-btn:hover {
             background-color: #b69566;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(200, 169, 126, 0.3);
+        }
+        
+        /* Most Booked Section */
+        .most-booked-section {
+            margin-top: 60px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title i {
+            color: var(--gold);
+            margin-right: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .view-all-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .view-all-link:hover {
+            color: #b69566;
+            transform: translateX(5px);
+        }
+        
+        /* Venue Cards Grid */
+        .venues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        /* Venue Card */
+        .venue-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            position: relative;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .venue-card:nth-child(1) { animation-delay: 0.1s; }
+        .venue-card:nth-child(2) { animation-delay: 0.2s; }
+        .venue-card:nth-child(3) { animation-delay: 0.3s; }
+        .venue-card:nth-child(4) { animation-delay: 0.4s; }
+        .venue-card:nth-child(5) { animation-delay: 0.5s; }
+        .venue-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .venue-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .venue-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .venue-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .venue-card:hover .venue-image img {
+            transform: scale(1.1);
+        }
+        
+        /* Booking Count Badge */
+        .booking-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--gold), #f1c40f);
             color: white;
-            box-shadow: 0 8px 20px rgba(200, 169, 126, 0.4);
-            transform: translateY(-3px);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 2;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-
-        .search-results {
-            margin-top: 40px;
+        
+        .booking-badge i {
+            font-size: 1rem;
+        }
+        
+        /* Popular Tag */
+        .popular-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            z-index: 2;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .venue-content {
+            padding: 20px;
+        }
+        
+        .venue-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .venue-location {
+            color: var(--secondary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .venue-location i {
+            color: var(--accent);
+        }
+        
+        .venue-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--green);
+            margin-bottom: 15px;
+        }
+        
+        .venue-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .venue-capacity {
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .view-details-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .view-details-btn:hover {
+            background-color: #b69566;
+            transform: translateX(5px);
+            color: white;
+        }
+        
+        /* Empty State */
+        .no-venues {
             text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 15px;
         }
-
+        
+        .no-venues i {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 20px;
+        }
+        
+        .no-venues h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .no-venues p {
+            color: var(--secondary);
+        }
+        
+        /* Footer */
         footer {
             background-color: var(--green);
             padding: 20px;
@@ -192,12 +437,75 @@
             width: 100%;
             box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
         }
-
+        
         footer p {
             margin: 0;
             font-weight: 500;
             letter-spacing: 0.5px;
             font-family: 'Karla', sans-serif;
+        }
+        
+        /* Weather Widget */
+        .weather-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 100;
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .weather-temp {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .weather-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-card {
+                padding: 25px;
+            }
+            
+            .search-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .venues-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .weather-widget {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px 20px;
+            }
         }
     </style>
 </head>
@@ -212,7 +520,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'search_venues' %}">Search Venues</a>
+                            <a class="nav-link active" href="{% url 'search_venues' %}">Search Venues</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'your_booking' %}">Your Booking</a>
@@ -230,22 +538,101 @@
     </header>
 
     <div class="search-container">
-        <h2 class="mb-4">Search Venues</h2>
-        <form action="{% url 'search_results' %}" method="get">
-            <div class="form-group">
-                <label for="location">Location:</label>
-                <select class="form-control" id="location" name="location" required>
-                    <option value="">Select Location</option>
-                    {% for location in locations %}
-                        <option value="{{ location }}">{{ location }}</option>
-                    {% endfor %}
-                </select>
+        <!-- Search Card -->
+        <div class="search-card" data-aos="fade-up">
+            <h1 class="search-title">
+                <i class="fas fa-search me-3"></i>Search Venues
+            </h1>
+            
+            <form class="search-form" action="{% url 'search_results' %}" method="get">
+                <div class="mb-4">
+                    <label class="form-label" for="location">
+                        <i class="fas fa-map-marker-alt me-2"></i>Location:
+                    </label>
+                    <select class="form-select" id="location" name="location" required>
+                        <option value="" selected disabled>Select Location</option>
+                        {% for location in locations %}
+                            <option value="{{ location }}">{{ location }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="submit" class="search-btn">
+                    <i class="fas fa-search me-2"></i>SEARCH
+                </button>
+            </form>
+        </div>
+
+        <!-- Most Booked Venues Section -->
+        {% if most_booked_venues %}
+        <div class="most-booked-section" data-aos="fade-up" data-aos-delay="100">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-fire"></i> Most Booked Venues
+                </h2>
+                <a href="{% url 'all_venues' %}" class="view-all-link">
+                    View All <i class="fas fa-arrow-right ms-1"></i>
+                </a>
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
-        <div class="search-results">
+            
+            <div class="venues-grid">
+                {% for venue in most_booked_venues %}
+                <div class="venue-card">
+                    <div class="venue-image">
+                        {% if venue.image %}
+                        <img src="{{ venue.image.url }}" alt="{{ venue.venue_name }}">
+                        {% else %}
+                        <img src="https://via.placeholder.com/400x300/CCCCCC/666666?text=No+Image" alt="{{ venue.venue_name }}">
+                        {% endif %}
+                        
+                        <!-- Booking Count Badge -->
+                        <div class="booking-badge">
+                            <i class="fas fa-calendar-check"></i>
+                            {{ venue.booking_count }} Booking{{ venue.booking_count|pluralize }}
+                        </div>
+                        
+                        <!-- Popular Tag for top 3 -->
+                        {% if forloop.counter <= 3 %}
+                        <div class="popular-tag">
+                            <i class="fas fa-crown me-1"></i> #{{ forloop.counter }} Most Booked
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="venue-content">
+                        <h3 class="venue-name">{{ venue.venue_name }}</h3>
+                        <div class="venue-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            {{ venue.location }}
+                        </div>
+                        <div class="venue-price">
+                            <i class="fas fa-rupee-sign"></i> {{ venue.pricing }}
+                        </div>
+                        <div class="venue-meta">
+                            <span class="venue-capacity">
+                                <i class="fas fa-users"></i> Up to {{ venue.capacity }} guests
+                            </span>
+                            <a href="{% url 'venue_details' venue.id %}" class="view-details-btn">
+                                View Details <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Weather Widget -->
+    <div class="weather-widget">
+        <i class="fas fa-sun fa-2x"></i>
+        <div>
+            <div class="weather-temp">26°C</div>
+            <div class="weather-desc">Clear</div>
         </div>
     </div>
+
     <footer>
         <p>&copy; 2024 Party Plot Management System. All rights reserved.</p>
     </footer>
