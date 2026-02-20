@@ -44,12 +44,14 @@ urlpatterns = [
     path('booking-availability/', views.booking_availability, name='booking_availability'),
     
     # NEW: Enhanced booking system with catering/decoration
-    # Add BOTH names for backward compatibility
-    path('venue/<int:venue_id>/', views.venue_details, name='venue_details'),           # With underscore (preferred)
-    path('venue-details/<int:venue_id>/', views.venue_details, name='venue-details'),   # With hyphen (for backward compatibility)
+    path('venue/<int:venue_id>/', views.venue_details, name='venue_details'),
+    path('venue-details/<int:venue_id>/', views.venue_details, name='venue-details'),
     path('create-booking/', views.create_booking, name='create_booking'),
     path('booking-confirmation/', views.booking_confirmation, name='booking_confirmation'),
     path('get-user-bookings/', views.get_user_bookings, name='get_user_bookings'),
+    
+    # NEW: Most Booked Venues page for customers
+    path('most-booked-venues/', views.all_most_booked_venues, name='all_most_booked_venues'),
     
     # Information pages
     path('cancellation/', views.cancellation, name='cancellation'),

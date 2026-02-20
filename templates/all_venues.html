@@ -11,6 +11,8 @@
     <!-- Icons & Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
@@ -58,6 +60,7 @@
             z-index: 1000;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .navbarr-brand {
@@ -69,6 +72,17 @@
             position: relative;
         }
 
+        .navbarr-brand::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 24px;
+            background-color: var(--accent);
+        }
+
         .navbarr-nav {
             list-style: none;
             display: flex;
@@ -78,6 +92,7 @@
 
         .navv-item {
             margin-right: 25px;
+            position: relative;
         }
 
         .navv-link {
@@ -86,6 +101,7 @@
             font-size: .9rem;
             text-decoration: none !important;
             letter-spacing: 1px;
+            padding: 5px 0;
             position: relative;
         }
 
@@ -111,11 +127,65 @@
         /* Main */
         main {
             background: #fff;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 140px auto 40px;
             padding: 60px 40px;
             border-radius: 12px;
             box-shadow: 0 15px 35px rgba(0,0,0,.1);
+        }
+
+        .page-title {
+            color: var(--primary);
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* Table */
@@ -135,6 +205,7 @@
             padding: 1rem;
             text-transform: uppercase;
             font-size: .85rem;
+            font-weight: 600;
         }
 
         .venue-table tbody td {
@@ -142,6 +213,7 @@
             font-size: .9rem;
             color: var(--secondary);
             vertical-align: middle;
+            border-bottom: 1px solid #eee;
         }
 
         .venue-table tbody tr:hover {
@@ -169,6 +241,7 @@
             border-radius: 6px;
             color: #fff;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
         .btn-edit {
@@ -177,6 +250,7 @@
 
         .btn-edit:hover {
             background: #b89a6e;
+            transform: translateY(-2px);
         }
 
         .btn-delete {
@@ -185,6 +259,55 @@
 
         .btn-delete:hover {
             background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-add {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #b89a6e;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Badges */
+        .badge-success {
+            background: var(--green);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .badge-danger {
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Empty State */
+        .no-venues {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .no-venues i {
+            font-size: 4rem;
+            color: #dee2e6;
+            margin-bottom: 20px;
         }
 
         footer {
@@ -195,6 +318,7 @@
             color: #fff;
             text-align: center;
             padding: 15px;
+            font-family: 'Karla', sans-serif;
         }
 
         @media (max-width: 992px) {
@@ -202,6 +326,21 @@
                 display: block;
                 overflow-x: auto;
                 white-space: nowrap;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            main {
+                margin: 100px 15px 40px;
+                padding: 20px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -213,26 +352,57 @@
     <nav class="navbarr">
         <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management</a>
         <ul class="navbarr-nav">
-            <li class="navv-item"><a class="navv-link" href="/add_venue.html">Add Venue</a></li>
-            <li class="navv-item"><a class="navv-link" href="/all-venues">Edit Venue</a></li>
-            <li class="navv-item"><a class="navv-link" href="/view_booking.html">View Booking</a></li>
-            <li class="navv-item"><a class="navv-link" href="/get_reviews.html">Get Reviews</a></li>
+            <!-- FIXED: Using Django URL tags instead of hardcoded paths -->
+            <li class="navv-item"><a class="navv-link" href="{% url 'add_venue' %}">Add Venue</a></li>
+            <li class="navv-item"><a class="navv-link" href="{% url 'all_venues' %}">All Venues</a></li>
+            <li class="navv-item"><a class="navv-link" href="{% url 'view_booking' %}">View Booking</a></li>
+            <li class="navv-item"><a class="navv-link" href="{% url 'get_reviews' %}">Get Reviews</a></li>
             <li class="navv-item"><a class="navv-link" href="{% url 'logout' %}">Logout</a></li>
         </ul>
     </nav>
 </header>
 
 <main>
-    <div class="container text-center">
-        <h1>All Venues</h1>
-        <p class="text-muted mb-4">Manage your venue listings with ease</p>
+    <div class="container">
+        <h1 class="page-title">All Venues</h1>
+        <p class="text-muted text-center mb-4">Manage your venue listings with ease</p>
+
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="stat-number">{{ venues|length }}</div>
+                <div class="stat-label">Total Venues</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-check-circle"></i>
+                <div class="stat-number">{{ venues_available|default:"0" }}</div>
+                <div class="stat-label">Available</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                <i class="fas fa-users"></i>
+                <div class="stat-number">{{ total_capacity|default:"0" }}</div>
+                <div class="stat-label">Total Capacity</div>
+            </div>
+            <div class="stat-card" data-aos="fade-up" data-aos-delay="400">
+                <i class="fas fa-rupee-sign"></i>
+                <div class="stat-number">{{ venues|length }}</div>
+                <div class="stat-label">Active Listings</div>
+            </div>
+        </div>
 
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             {% endfor %}
         {% endif %}
 
+        {% if venues %}
         <div class="table-responsive">
             <table class="venue-table">
                 <thead>
@@ -250,37 +420,33 @@
                 </thead>
                 <tbody>
                     {% for venue in venues %}
-                    <tr>
+                    <tr data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:'100' }}">
                         <td><strong>{{ venue.venue_name }}</strong></td>
-                        <td><i class="fas fa-map-marker-alt mr-1"></i>{{ venue.location }}</td>
-                        <td><i class="fas fa-users mr-1"></i>{{ venue.capacity }}</td>
-                        <td><i class="fas fa-tag mr-1"></i>{{ venue.pricing }}</td>
+                        <td><i class="fas fa-map-marker-alt mr-1" style="color: var(--accent);"></i>{{ venue.location }}</td>
+                        <td><i class="fas fa-users mr-1" style="color: var(--accent);"></i>{{ venue.capacity }}</td>
+                        <td><i class="fas fa-tag mr-1" style="color: var(--accent);"></i>{{ venue.pricing }}</td>
                         <td>
                             {% if venue.availability == 'yes' %}
-                                <span class="badge badge-success">Available</span>
+                                <span class="badge-success">Available</span>
                             {% else %}
-                                <span class="badge badge-danger">Not Available</span>
+                                <span class="badge-danger">Not Available</span>
                             {% endif %}
                         </td>
-                        <td class="description-cell" title="{{ venue.amenities }}">{{ venue.amenities }}</td>
-                        <td class="description-cell" title="{{ venue.catering_menu }}">{{ venue.catering_menu|default:"Not specified" }}</td>
-                        <td class="description-cell" title="{{ venue.decoration_options }}">{{ venue.decoration_options|default:"Not specified" }}</td>
+                        <td class="description-cell" title="{{ venue.amenities }}">{{ venue.amenities|truncatechars:30 }}</td>
+                        <td class="description-cell" title="{{ venue.catering_menu }}">{{ venue.catering_menu|default:"Not specified"|truncatechars:20 }}</td>
+                        <td class="description-cell" title="{{ venue.decoration_options }}">{{ venue.decoration_options|default:"Not specified"|truncatechars:20 }}</td>
                         <td>
                             <div class="action-btns">
-                                <form method="post" action="{% url 'edit_venue' %}">
+                                <form method="post" action="{% url 'edit_venue' %}" style="display: inline;">
                                     {% csrf_token %}
                                     <input type="hidden" name="venue_name" value="{{ venue.venue_name }}">
                                     <button class="btn-edit" type="submit">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
                                 </form>
-                                <form method="post" action="{% url 'delete_venue' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="venue_name" value="{{ venue.venue_name }}">
-                                    <button class="btn-delete" type="submit">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </form>
+                                <button class="btn-delete" onclick="deleteVenue('{{ venue.venue_name }}')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -289,17 +455,90 @@
             </table>
         </div>
 
-        <div class="mt-5">
-            <a href="/add_venue.html" class="btn-edit text-decoration-none">
+        <div class="text-center mt-5">
+            <a href="{% url 'add_venue' %}" class="btn-add">
                 <i class="fas fa-plus-circle mr-2"></i> Add New Venue
             </a>
         </div>
+        {% else %}
+        <div class="no-venues">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>No Venues Found</h3>
+            <p class="text-muted mb-4">You haven't added any venues yet. Start by adding your first venue.</p>
+            <a href="{% url 'add_venue' %}" class="btn-add">
+                <i class="fas fa-plus-circle mr-2"></i> Add Your First Venue
+            </a>
+        </div>
+        {% endif %}
     </div>
 </main>
 
 <footer>
     <p>&copy; 2025 Party Plot Management System. All rights reserved.</p>
 </footer>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<script>
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
+    });
+
+    // Delete venue function with SweetAlert2 confirmation
+    function deleteVenue(venueName) {
+        Swal.fire({
+            title: 'Delete Venue?',
+            text: `Are you sure you want to delete "${venueName}"? This action cannot be undone.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#c8a97e',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+            background: 'white',
+            backdrop: 'rgba(0,0,0,0.4)'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show loading
+                Swal.fire({
+                    title: 'Deleting...',
+                    text: 'Please wait while we delete the venue.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Create form and submit
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '{% url "delete_venue" %}';
+                
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = 'csrfmiddlewaretoken';
+                csrfInput.value = '{{ csrf_token }}';
+                
+                const venueInput = document.createElement('input');
+                venueInput.type = 'hidden';
+                venueInput.name = 'venue_name';
+                venueInput.value = venueName;
+                
+                form.appendChild(csrfInput);
+                form.appendChild(venueInput);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+</script>
 
 </body>
 </html>

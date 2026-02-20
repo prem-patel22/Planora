@@ -8,7 +8,7 @@ from .forms import VenueForm
 from django.http import JsonResponse, HttpResponseServerError
 from django.utils import timezone
 from datetime import datetime
-from django.db.models import Count  # ADD THIS IMPORT
+from django.db.models import Count
 import json
 
 def logout_view(request):
@@ -339,7 +339,6 @@ def fetch_venue_location(request):
     venues = Venue.objects.all()
     return render(request, 'search_venues.html', {'venues': venues})
 
-# ===== UPDATED SEARCH_VENUES FUNCTION =====
 def search_venues(request):
     """View for the search venues page with most booked venues section"""
     locations = Venue.objects.values_list('location', flat=True).distinct()
@@ -354,7 +353,28 @@ def search_venues(request):
         'most_booked_venues': most_booked_venues,
     }
     return render(request, 'search-venues.html', context)
-# ==========================================
+
+# ===== NEW FUNCTION: All Most Booked Venues =====
+def all_most_booked_venues(request):
+    """Display all venues sorted by booking count (most booked first)"""
+    # Get all venues annotated with booking count, ordered by most booked
+    all_venues = Venue.objects.annotate(
+        booking_count=Count('booking')
+    ).order_by('-booking_count')
+    
+    # Calculate additional stats
+    total_bookings = 0
+    for venue in all_venues:
+        total_bookings += venue.booking_count
+    
+    context = {
+        'venues': all_venues,
+        'total_venues': all_venues.count(),
+        'total_bookings': total_bookings,
+        'most_booked_count': all_venues.first().booking_count if all_venues.exists() else 0
+    }
+    return render(request, 'all_most_booked_venues.html', context)
+# ================================================
 
 def edit_venue(request):
     venue_name = request.POST.get('venue_name')
