@@ -32,10 +32,30 @@ def index(request):
     welcome_message = f"Welcome {request.user.username} ..." if request.user.is_authenticated else ""
     return render(request, 'index.html', {'venues_with_images': venues_with_images, 'welcome_message': welcome_message})
 
+# UPDATED: index1 function with statistics
 def index1(request):
     venues_with_images = Venue.objects.exclude(image__isnull=True).exclude(image__exact='')
     welcome_message = f"Welcome {request.user.username} ..." if request.user.is_authenticated else ""
-    return render(request, 'index1.html', {'venues_with_images': venues_with_images, 'welcome_message': welcome_message})
+    
+    # Get statistics for admin dashboard
+    total_venues = Venue.objects.count()
+    total_bookings = Booking.objects.count()
+    total_customers = Customer.objects.count()
+    total_reviews = Review.objects.count()
+    
+    # Get recent bookings for display
+    recent_bookings = Booking.objects.select_related('venue', 'customer').order_by('-date')[:5]
+    
+    context = {
+        'venues_with_images': venues_with_images,
+        'welcome_message': welcome_message,
+        'total_venues': total_venues,
+        'total_bookings': total_bookings,
+        'total_customers': total_customers,
+        'total_reviews': total_reviews,
+        'recent_bookings': recent_bookings,
+    }
+    return render(request, 'index1.html', context)
 
 def user_login(request):
     return render(request, 'login.html')

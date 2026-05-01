@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartPlot - Admin Dashboard</title>
+    <title>Planora - Admin Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Infant:wght@400;500;600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
@@ -69,7 +69,7 @@
         }
 
         /* Enhanced Navbar */
-        .navbarr {
+        .navbar {
             background-color: rgba(38, 50, 56, 0.98);
             color: white;
             padding: 18px 0;
@@ -85,7 +85,7 @@
             z-index: 1000;
         }
 
-        .navbarr-brand {
+        .navbar-brand {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
             font-weight: 700;
@@ -96,7 +96,7 @@
             position: relative;
         }
 
-        .navbarr-brand::before {
+        .navbar-brand::before {
             content: '';
             position: absolute;
             left: 0;
@@ -107,7 +107,7 @@
             background-color: var(--accent);
         }
 
-        .navbarr-nav {
+        .navbar-nav {
             list-style: none;
             margin: 0;
             padding: 0;
@@ -117,12 +117,12 @@
             padding-right: 2rem;
         }
 
-        .navv-item {
+        .nav-item {
             margin-right: 25px;
             position: relative;
         }
 
-        .navv-link {
+        .nav-link {
             text-decoration: none;
             color: white;
             font-size: 0.95rem;
@@ -134,7 +134,7 @@
             position: relative;
         }
 
-        .navv-link::after {
+        .nav-link::after {
             content: '';
             position: absolute;
             width: 0;
@@ -145,11 +145,11 @@
             transition: width 0.3s ease;
         }
 
-        .navv-link:hover {
+        .nav-link:hover {
             color: var(--accent);
         }
 
-        .navv-link:hover::after {
+        .nav-link:hover::after {
             width: 100%;
         }
 
@@ -164,7 +164,7 @@
             margin: 100px auto 40px auto;
             position: relative;
             overflow: hidden;
-            width: 100%;
+            width: 90%;
         }
 
         main::before {
@@ -186,17 +186,18 @@
         }
 
         .stat-card {
-            background: white;
-            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
             padding: 30px 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             transition: transform 0.3s ease;
             text-align: center;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .stat-icon {
@@ -208,15 +209,57 @@
         .stat-number {
             font-size: 2rem;
             font-weight: 700;
-            color: var(--primary);
             font-family: 'Playfair Display', serif;
         }
 
         .stat-label {
-            color: var(--secondary);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        /* Recent Bookings Section */
+        .recent-section {
+            margin-top: 40px;
+        }
+
+        .section-subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .bookings-table th,
+        .bookings-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .bookings-table th {
+            background-color: var(--accent);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .bookings-table tr:hover {
+            background-color: rgba(200, 169, 126, 0.1);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 30px;
+            color: #999;
         }
 
         /* Enhanced Card Styles */
@@ -317,15 +360,15 @@
         }
 
         .card-text:nth-of-type(1)::before {
-            content: '\f3c5'; /* map marker icon */
+            content: '\f3c5';
         }
 
         .card-text:nth-of-type(2)::before {
-            content: '\f0c0'; /* users icon */
+            content: '\f0c0';
         }
 
         .card-text:nth-of-type(3)::before {
-            content: '\f155'; /* dollar icon */
+            content: '\f155';
         }
 
         /* Admin Action Buttons */
@@ -402,16 +445,16 @@
                 max-width: calc(50% - 30px);
             }
 
-            .navbarr {
+            .navbar {
                 padding: 15px 0;
             }
 
-            .navbarr-brand {
+            .navbar-brand {
                 font-size: 1.6rem;
                 padding-left: 1.5rem;
             }
 
-            .navv-item {
+            .nav-item {
                 margin-right: 15px;
             }
 
@@ -429,10 +472,10 @@
             main {
                 padding: 40px 20px;
                 margin: 130px 15px 40px 15px;
-                width: 100%;
+                width: auto;
             }
 
-            .navbarr-nav {
+            .navbar-nav {
                 padding-right: 1rem;
             }
 
@@ -440,25 +483,22 @@
                 font-size: 2rem;
             }
 
-            .navbarr-brand::before {
+            .navbar-brand::before {
                 height: 20px;
             }
 
-            .admin-actions {
-                flex-direction: column;
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .bookings-table {
+                display: block;
+                overflow-x: auto;
             }
         }
 
-        /* Additional Premium Touches */
-        .mt-5 {
-            margin-top: 3rem;
-        }
-
-        .mb-4 {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Animation for page elements */
+        /* Animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -484,24 +524,23 @@
 </head>
 <body>
     <header>
-        <nav class="navbarr">
-            <a class="navbarr-brand" href="{% url 'index1' %}">Party Plot Management - Admin</a>
-            <ul class="navbarr-nav">
-                <!-- FIXED: Updated to use Django URL tags -->
-                <li class="navv-item">
-                    <a class="navv-link" href="{% url 'add_venue' %}">Add Venue</a>
+        <nav class="navbar">
+            <a class="navbar-brand" href="{% url 'index1' %}">Party Plot Management - Admin</a>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add_venue' %}">Add Venue</a>
                 </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="{% url 'all_venues' %}">All Venues</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'all_venues' %}">All Venues</a>
                 </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="{% url 'view_booking' %}">View Booking</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_booking' %}">View Booking</a>
                 </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="{% url 'get_reviews' %}">Get Reviews</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'get_reviews' %}">Get Reviews</a>
                 </li>
-                <li class="navv-item">
-                    <a class="navv-link" href="{% url 'logout' %}">Logout</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                 </li>
             </ul>
         </nav>
@@ -511,40 +550,76 @@
         <h1>Admin Dashboard</h1>
         <p style="font-family: 'Karla', sans-serif;">Welcome back, Admin! Manage your venues and bookings here.</p>
 
-        <!-- Admin Stats Section -->
+        <!-- Admin Stats Section - UPDATED WITH REAL DATA -->
         <div class="stats-container">
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-map-marker-alt"></i>
                 </div>
-                <div class="stat-number">{{ venues_with_images|length }}</div>
+                <div class="stat-number">{{ total_venues|default:"0" }}</div>
                 <div class="stat-label">Total Venues</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-calendar-check"></i>
                 </div>
-                <div class="stat-number">0</div>
+                <div class="stat-number">{{ total_bookings|default:"0" }}</div>
                 <div class="stat-label">Total Bookings</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <div class="stat-number">0</div>
+                <div class="stat-number">{{ total_customers|default:"0" }}</div>
                 <div class="stat-label">Total Customers</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">
                     <i class="fas fa-star"></i>
                 </div>
-                <div class="stat-number">0</div>
+                <div class="stat-number">{{ total_reviews|default:"0" }}</div>
                 <div class="stat-label">Total Reviews</div>
             </div>
         </div>
 
-        <h2 style="margin-top: 60px;">Your Venues</h2>
-        <p>Manage and edit your venue listings below.</p>
+        <!-- Recent Bookings Section -->
+        <div class="recent-section">
+            <h2>Recent Bookings</h2>
+            <p class="section-subtitle">Latest booking activities</p>
+            
+            <div class="table-responsive">
+                <table class="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Customer</th>
+                            <th>Venue</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if recent_bookings %}
+                            {% for booking in recent_bookings %}
+                            <tr>
+                                <td>#{{ booking.booking_id }}</td>
+                                <td>{{ booking.customer.name.username }}</td>
+                                <td>{{ booking.venue.venue_name }}</td>
+                                <td>{{ booking.date|date:"d M Y" }}</td>
+                                <td>₹{{ booking.booking_price|floatformat:0 }}</td>
+                                <td><span class="badge bg-success">Confirmed</span></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="no-data">No bookings yet</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <div class="container mt-5">
             <div class="row">
@@ -557,8 +632,6 @@
                             <p class="card-text">Location: {{ venue.location }}</p>
                             <p class="card-text">Capacity: {{ venue.capacity }}</p>
                             <p class="card-text">Pricing: {{ venue.pricing }}</p>
-                            
-                            <!-- Admin Action Buttons -->
                             <div class="admin-actions">
                                 <a href="{% url 'edit_venue' %}?venue_name={{ venue.venue_name }}" class="btn-edit">
                                     <i class="fas fa-edit me-1"></i>Edit
@@ -609,7 +682,6 @@
                 cancelButtonText: 'Cancel'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Create a form and submit it
                     const form = document.createElement('form');
                     form.method = 'POST';
                     form.action = '{% url "delete_venue" %}';
